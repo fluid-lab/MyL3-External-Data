@@ -1,7 +1,7 @@
 # MyL3-External-Data
 GSoC 2018 project
 
-Idea is to develop basic Infusion wrapper for My Life Long Learning Lab(MyL3). This wrapper will contain following data about learners imported from various external sources.
+This project aims to import useful data about learners from external sources (By taking their permission). Data sources that will be researched and prototyped include:
 
 * Import Weather data
 * Import Map/Location data
@@ -9,4 +9,4 @@ Idea is to develop basic Infusion wrapper for My Life Long Learning Lab(MyL3). T
 * Import FitBit data
 * Import Facebook Status
 
-More info about MyL3: [click here](https://wiki.fluidproject.org/display/fluid/%28Floe%29+Preference+Exploration+and+Self-Assessment)
+For more info visit [MyL3 page of the Fluid wiki](https://wiki.fluidproject.org/display/fluid/%28Floe%29+Preference+Exploration+and+Self-Assessment)
