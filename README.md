@@ -13,6 +13,9 @@ For more info visit [MyL3 page of the Fluid wiki](https://wiki.fluidproject.org/
 
 ## Importing location and weather data:
 
+### Configuring API keys
+To configure the API keys, copy apiKeysTemplate.js to apiKeys.js and replace the API key placeholders "REPLACE THIS" with the appropriate keys.
+
 Steps to run the project in PC:
 
 * Clone repo and open project folder in terminal

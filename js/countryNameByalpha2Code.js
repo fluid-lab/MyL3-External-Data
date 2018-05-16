@@ -1,4 +1,6 @@
-const codesList = {
+myL3 = myL3 || {}
+
+myL3.codesList = {
     "AF": "Afghanistan", 
     "AX": "Åland Islands", 
     "AL": "Albania", 

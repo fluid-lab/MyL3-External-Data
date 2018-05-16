@@ -1,7 +1,6 @@
 $(document).ready((e) => {
 
-    const key = '643a630e1616ba355e88b51064857533';
-    // Key should reside on server.
+    const key = myL3.apiKeys.openweathermapKey;
 
     getData = () => {
         $('#import').hide();
@@ -9,7 +8,7 @@ $(document).ready((e) => {
 
             options = {
                 enableHighAccuracy: true,
-                timeout: 5000,
+                timeout: 30000,
                 maximumAge: 0
             };
 
@@ -17,6 +16,8 @@ $(document).ready((e) => {
                 console.log(err);
                 $('#err').html(`Cannot retrieve location info, \
                 <br>Reason: <strong>${err.message}</strong>`);
+                if(!navigator.onLine)
+                    alert('Internet connection not avaiable');
             }
 
             getWeatherData = (position) => {
@@ -30,7 +31,7 @@ $(document).ready((e) => {
                 $.getJSON(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${key}`, (weatherData) => {
                     console.log('Weather JSON', weatherData);
                     const wJSON = JSON.stringify(weatherData);
-                    $('#city').html(`Country: ${codesList[weatherData.sys.country]} <br> City: ${weatherData.name} <br><br>`)
+                    $('#city').html(`Country: ${myL3.codesList[weatherData.sys.country]} <br> City: ${weatherData.name} <br><br>`)
                     $('#wData').html(`<h3>Weather Data:</h3><p> ${wJSON}</p>`);
                 })
                 .fail(() => {
