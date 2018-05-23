@@ -32,4 +32,4 @@ Steps to run the project in PC:
 
     ``` http-server -p 3000 ```
 
-* Type localhost: 3000 in your browser address bar and hit enter.
+* Type ```localhost: 3000``` in your browser address bar and hit enter.

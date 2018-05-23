@@ -31,7 +31,7 @@ $(document).ready((e) => {
                 $.getJSON(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${key}`, (weatherData) => {
                     console.log('Weather JSON', weatherData);
                     const wJSON = JSON.stringify(weatherData);
-                    $('#city').html(`Country: ${myL3.codesList[weatherData.sys.country]} <br> City: ${weatherData.name} <br><br>`)
+                    $('#city').html(`Country: ${myL3.countryNames[weatherData.sys.country]} <br> City: ${weatherData.name} <br><br>`)
                     $('#wData').html(`<h3>Weather Data:</h3><p> ${wJSON}</p>`);
                 })
                 .fail(() => {
@@ -43,10 +43,8 @@ $(document).ready((e) => {
             }
 
             navigator.geolocation.getCurrentPosition(getWeatherData, error, options);
-
         }
-        else {
+        else
             console.log('User\'s browser doesn\'t support geolocation');
-        }
     }
 });
