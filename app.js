@@ -16,8 +16,9 @@ $(document).ready((e) => {
                 console.log(err);
                 $('#err').html(`Cannot retrieve location info, \
                 <br>Reason: <strong>${err.message}</strong>`);
-                if(!navigator.onLine)
+                if(!navigator.onLine) {
                     alert('Internet connection not avaiable');
+                }
             }
 
             getWeatherData = (position) => {
@@ -38,13 +39,14 @@ $(document).ready((e) => {
                     console.log('Weather data not available for this region.');
                 });
 
-                // we can also get weather forecast for next 5 days using following link:
-                // http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&APPID=${key}
+                // we can also get weather forecast of next 5 days using following link:
+                // https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&APPID=${key}
             }
 
             navigator.geolocation.getCurrentPosition(getWeatherData, error, options);
         }
-        else
+        else {
             console.log('User\'s browser doesn\'t support geolocation');
+        }
     }
 });

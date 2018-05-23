@@ -1,3 +1,7 @@
+// Following license from https://github.com/tarraq/JSON-data-arrays/blob/master/LICENSE
+// allows to use (https://github.com/tarraq/JSON-data-arrays/blob/master/countries/english/countries-key-value.json) 
+// country names from their alpha-2 codes in this project.
+//
 // Copyright (c) 2015 tarraq
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
