@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-myL3 = myL3 || {}
+var myL3 = myL3 || {};
 myL3.countryNames = {
     "AF": "Afghanistan", 
     "AX": "Åland Islands", 
