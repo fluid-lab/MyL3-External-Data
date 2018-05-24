@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>MyL3 External Data</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="styles.css" />
+    <script src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/apiKeys.js"></script>
+    <script type="text/javascript" src="js/countryNames.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="coords">
+            <!-- Coordinates will go here.... -->
+        </div>
+        <div id="city">
+            <!-- city and country -->
+        </div>
+        <!-- <div id="spinner">
+            <i class="fa fa-spinner"></i>
+        </div> -->
+        <div id="wData">
+            <!-- Weather data goes here..... -->
+        </div>
+        <div id="err"></div>
+        <button id="import" onclick="getData()">Get Data</button>
+    </div>
+</body>
+</html>
