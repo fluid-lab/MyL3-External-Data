@@ -19,13 +19,21 @@
         <div id="city">
             <!-- city and country -->
         </div>
-        <!-- <div id="spinner">
-            <i class="fa fa-spinner"></i>
-        </div> -->
-        <div id="wData">
-            <!-- Weather data goes here..... -->
+        <div id="spinner">
+            <!-- GIF created through https://loading.io , License: CC0/Free use for any purpose -->
+            <img src="/assets/Rolling-200px.gif" width="100" />  
+            <p>Fetching weather data...</p>
         </div>
         <div id="err"></div>
+
+        <table border="1" id="tabularData">
+            <tbody>
+                <tr id="tr_1">
+                    <th>Parameter</th>
+                    <th>Value</th>
+                </tr>
+            </tbody>
+        </table>
         <button id="import" onclick="getData()">Get Data</button>
     </div>
 </body>

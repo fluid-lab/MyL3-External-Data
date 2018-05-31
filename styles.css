@@ -8,12 +8,42 @@
 }
 
 #import {
-    background: #dacd17;
-    border: 1px blue solid;
+    background: #ffaf49;
     border-radius: 5px;
     width: 100px;
     height: 50px;
     font-weight: bold;
     font-size: 15px;
     margin-left: 45%;
+}
+
+#tabularData {
+    display: none;
+}
+
+table {
+    width: 100%;
+    min-width: 200px;
+    max-width: 700px;
+    border-collapse: collapse;
+}
+
+tr:nth-child(odd) {
+    background: #ffb04994;
+}
+
+th, td {
+    width: 50%;
+    text-align: center;
+}
+
+tr {
+    height: 30px;
+}
+
+#tr_1 {
+    background: #5b49ff;
+    color: white;
+    height: 40px;
+    font-size: 20px;
 }
