@@ -7,18 +7,17 @@
     margin: 5% 15%; 
 }
 
-#import {
-    background: #ffaf49;
-    border-radius: 5px;
-    width: 100px;
-    height: 50px;
-    font-weight: bold;
-    font-size: 15px;
-    margin-left: 45%;
+#tabularData, #spinner {
+    display: none;
 }
 
-#tabularData {
-    display: none;
+#importWeather, #editSelectionBtn, #importLocation {
+    margin-bottom: 10px;
+}
+
+#buttons {
+    width: 30%;
+    margin: 0 35%;
 }
 
 table {
@@ -26,10 +25,12 @@ table {
     min-width: 200px;
     max-width: 700px;
     border-collapse: collapse;
+    margin-bottom: 40px;
 }
 
 tr:nth-child(odd) {
     background: #ffb04994;
+    text-align: center;
 }
 
 th, td {
@@ -46,4 +47,12 @@ tr {
     color: white;
     height: 40px;
     font-size: 20px;
+}
+
+#map {
+    width:600px;
+    height:400px;
+    background:#383826;
+    margin-bottom: 10px;
+    display: none;
 }
