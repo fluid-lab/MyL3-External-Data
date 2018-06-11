@@ -26,7 +26,7 @@
          </div>
 
          <center>
-            <div id="map"></div>
+            <div id="map" class="col-xs-12"></div>
             <div id="city"></div>
          </center>
          <div id="spinner">
@@ -40,7 +40,7 @@
 
          <div id="weatherTable">
             <center>
-               <table border="1" id="tabularData">
+               <table id="tabularData">
                   <tbody>
                      <tr id="tr_1">
                         <th>Parameter</th>
@@ -64,22 +64,27 @@
             </center>
          </div>
 
+         <div id="goBack" style="display: none;">
+             <center>
+                <button id="backBtn" class="btn btn-lg btn-info">Go Back</button>
+             </center>
+         </div>
+
          <div class="modal fade" id="selectFields">
             <div class="modal-dialog modal-sm modal-dialog-centered">
                <div class="modal-content">
 
                   <div class="modal-header">
-                     <h5 class="modal-title">Check the info you need</h5>
+                     <h5 class="modal-title">Select data you need</h5>
                      <button type="button" class="close" data-dismiss="modal">&times;</button>
                   </div>
 
                   <div class="modal-body" style="margin-left: 10px;">
                      <div class="form-check">
-                         <center>
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" id="selectAll" value="">SELECT ALL
-                            </label>
-                        </center>
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="selectAll" value="">
+                            <span id="s_all">SELECT ALL</span>
+                        </label>
                      </div>
                      <form id="weatherFieldsForm" name="weatherFieldsForm" method="post">
                         <div class="form-check">
@@ -139,13 +144,13 @@
                         </div>
                         <div class="modal-footer">
                            <button type="submit" class="btn btn-primary">Submit</button>
-                           <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                           <button type="button" class="btn" data-dismiss="modal">Cancel</button>
                         </div>
                      </form>
                   </div>
                </div>
             </div>
          </div>
-      </div>
+        </div>
    </body>
 </html>

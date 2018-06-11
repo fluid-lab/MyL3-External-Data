@@ -1,8 +1,8 @@
 $(document).ready((e) => {
     
-    const openweathermapKey = myL3.apiKeys.openweathermapKey;
-    const googleMapKey = myL3.apiKeys.googleMapKey;
-    const tableParams = [
+    const OPENWEATHERMAP_KEY = myL3.apiKeys.openweathermapKey;
+    const GOOGLE_MAP_KEY = myL3.apiKeys.googleMapKey;
+    const TABLE_PARAMS = [   // Paramteres in table.
         'Temprature (F)',
         'Temprature (C)',
         'Atmospheric Pressure',
@@ -15,10 +15,9 @@ $(document).ready((e) => {
         "Weather Description",
         'Visibility Range'
     ];
-
-    let values = [];
+    let values = [];        // Stores all the fields selected by user from modal.
     let oneTimeWeatherData, oneTimePosition; // to avoid repetitive API calls.
-    let isLocationAvailable=false, mapAvailable=false;
+    let isLocationAvailable = false, mapAvailable = false;  // helps in showing map and weather table quickly
 
     $('#editSelectionBtn').hide();
 
@@ -26,11 +25,10 @@ $(document).ready((e) => {
 
         if($('#tabularData tbody').children().length > 1) {
             $('#weatherTable').hide();
-            var children = $('#tabularData tbody').children();
-            for(var i=1; i<children.length; i++) {
+            const children = $('#tabularData tbody').children();
+            for(let i=1; i<children.length; i++) {
                 $('#tabularData tbody').children()[1].remove();
             }
-            $('#weatherTable').show();
             values = [];
             addDataIntoTable(oneTimeWeatherData, fields);
             return;
@@ -60,8 +58,7 @@ $(document).ready((e) => {
                 const lon = position.coords.longitude;
                 const location = JSON.stringify(position.coords);
 
-                $('#spinner').show();
-                $.getJSON(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${openweathermapKey}`, (weatherData) => {
+                $.getJSON(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${OPENWEATHERMAP_KEY}`, (weatherData) => {
                     console.log('Weather JSON', weatherData);
                     oneTimeWeatherData = weatherData;
                     $('#spinner').hide();
@@ -96,15 +93,16 @@ $(document).ready((e) => {
     }
 
     $('#selectAll').on('click', () => {
-        var length = $('#weatherFieldsForm')[0].length;
-        for(var i=0; i<length; i++) {
+        $('#selectAll')[0].checked ? $('#s_all').html('DESELECT ALL') : $('#s_all').html('SELECT ALL');
+        const length = $('#weatherFieldsForm')[0].length;
+        for(let i=0; i<length; i++) {
             $('#weatherFieldsForm')[0][i].checked = $('#selectAll')[0].checked;
         }
     })
 
     function addDataIntoTable (weatherData, fields) {
-        // Pushing indexes into values Array
-        for(var i=0; i<fields.length; i++) {
+        // Pushing values into values Array using fields array
+        for(let i=0; i<fields.length; i++) {
             switch(fields[i]) {
                 case "1":
                     values.push(parseFloat((weatherData.main.temp - 273.15)*1.8 + 32).toFixed(2) +' &deg;F');
@@ -142,13 +140,13 @@ $(document).ready((e) => {
             }
         }
 
-        for(var i=0; i<values.length; i++) {
-            $('#tabularData> tbody > tr:last').after("<tr><td>" + tableParams[parseInt(fields[i])-1] + 
+        for(let i=0; i<values.length; i++) {
+            $('#tabularData> tbody > tr:last').after("<tr><td>" + TABLE_PARAMS[parseInt(fields[i])-1] + 
             "</td><td>" + values[i] + "</td></tr>");
         }
         $('#weatherTable').show();
         // source code to retrieve weather icon
-        // var src = `https://openweathermap.org/img/w/${weatherData.weather[0].icon}.png`;
+        // const src = `https://openweathermap.org/img/w/${weatherData.weather[0].icon}.png`;
         
         // $('#tabularData> tbody > tr:last').after("<tr><td>Weather Icon</td><td><img src="+
         // src + " /></td></tr>");
@@ -156,13 +154,18 @@ $(document).ready((e) => {
 
     $("#weatherFieldsForm").on('submit', (e) => {
         $('#city').hide();
-        var fieldsSelectedByLearner = [];
+        $('#buttons').hide();
+        $('#goBack').show();
+        if(!oneTimeWeatherData) {
+            $('#spinner').show();
+        }
+        let fieldsSelectedByLearner = [];
         // prevent form submission
         e.preventDefault();
-        var form = document.getElementById('weatherFieldsForm');
+        const form = document.getElementById('weatherFieldsForm');
         formData = new FormData(form);
         
-        for( var ent of formData.entries()) {
+        for( let ent of formData.entries()) {
             fieldsSelectedByLearner.push(ent[1]);
         }
 
@@ -184,6 +187,9 @@ $(document).ready((e) => {
 
     locationImport = () => {
         $('#weatherTable').hide();
+        $('#buttons').hide();
+        $('#spinner').show();
+        $('#goBack').show();
 
         if(isLocationAvailable) {
             const lat = oneTimePosition.coords.latitude;
@@ -196,16 +202,15 @@ $(document).ready((e) => {
                 addGoogleMap();
             }
         } else {
-            var fakeArray = [];
+            const fakeArray = [];
             getData(fakeArray);
         }
     }
 
     addGoogleMap = () => {
-        
         // callback function used by google maps.
         myMap = () => {
-            var myLatLng = { 
+            const myLatLng = { 
                 lat: oneTimePosition.coords.latitude,
                 lng: oneTimePosition.coords.longitude
             };
@@ -227,10 +232,14 @@ $(document).ready((e) => {
         let script = document.createElement('script');
         script.async = true;
         script.defer = true;
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapKey}&callback=myMap`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAP_KEY}&callback=myMap`;
         $('body').append(script);
         $('#map').show();
         mapAvailable = true;
         // google maps added.
     }
+
+    $('#backBtn').on('click', () => {
+        this.location.reload();
+    });
 });

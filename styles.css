@@ -3,6 +3,10 @@
     padding: 0px;
 }
 
+body {
+    background: #ECEFF1;
+}
+
 .container {
     margin: 5% 15%; 
 }
@@ -20,22 +24,37 @@
     margin: 0 35%;
 }
 
+#s_all {
+    font-weight: bold;
+}
+
+.form-check {
+    left: 25px;
+}
+
 table {
     width: 100%;
     min-width: 200px;
-    max-width: 700px;
+    max-width: 300px;
     border-collapse: collapse;
     margin-bottom: 40px;
 }
 
 tr:nth-child(odd) {
-    background: #ffb04994;
-    text-align: center;
+    background: #eaeaea;
+}
+
+h1 {
+    font-size: 3vw;
+}
+
+h2 {
+    font-size: 2vw;
 }
 
 th, td {
     width: 50%;
-    text-align: center;
+    padding-left: 5px;
 }
 
 tr {
@@ -43,15 +62,15 @@ tr {
 }
 
 #tr_1 {
-    background: #5b49ff;
+    background: #c2bbff;
     color: white;
     height: 40px;
     font-size: 20px;
 }
 
 #map {
-    width:600px;
-    height:400px;
+    width:300px;
+    height:500px;
     background:#383826;
     margin-bottom: 10px;
     display: none;
