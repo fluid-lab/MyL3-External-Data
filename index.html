@@ -9,10 +9,13 @@
       <link rel="stylesheet" type="text/css" media="screen" href="styles.css" />
       <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
 
-      <script src="js/jquery.min.js"></script>
-      <script src="js/bootstrap.min.js"></script>
+      <script src="lib/infusion-all.js"></script>
+      <script src="lib/bootstrap.min.js"></script>
       <script src="js/apiKeys.js"></script>
       <script src="js/countryNames.js"></script>
+      <script src="services/commonService.js"></script>
+      <script src="services/weatherService.js"></script>
+      <script src="services/locationService.js"></script>
       <script src="app.js"></script>
    </head>
 
@@ -51,7 +54,7 @@
             </center>
          </div>
 
-         <div id="editSelectionBtn">
+         <div id="editSelectionBtn" style="display: none;">
             <center>
                <button id="editChoices" class="btn btn-lg btn-info">Edit choices</button>
             </center>
@@ -60,7 +63,7 @@
          <div id="buttons">
             <center>
                <button id="importWeather" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#selectFields">Weather Data</button>
-               <button id="importLocation" onclick="locationImport()" class="btn btn-lg btn-primary">Location Data</button>
+               <button id="importLocation" onclick="myL3.locationService.importLocation()" class="btn btn-lg btn-primary">Location Data</button>
             </center>
          </div>
 
@@ -151,6 +154,6 @@
                </div>
             </div>
          </div>
-        </div>
+      </div>
    </body>
 </html>
