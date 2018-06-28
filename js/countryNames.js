@@ -21,9 +21,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-
-fluid.registerNamespace("myL3");
-myL3.countryNames = {
+const countryNames = {
     "AF": "Afghanistan", 
     "AX": "Åland Islands", 
     "AL": "Albania", 
@@ -271,3 +269,4 @@ myL3.countryNames = {
     "ZW": "Zimbabwe"
   }
   
+export { countryNames };

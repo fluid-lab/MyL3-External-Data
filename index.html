@@ -9,14 +9,14 @@
       <link rel="stylesheet" type="text/css" media="screen" href="styles.css" />
       <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
 
-      <script src="lib/infusion-all.js"></script>
+      <script src="lib/jquery-3.3.1.min.js"></script>
       <script src="lib/bootstrap.min.js"></script>
       <script src="js/apiKeys.js"></script>
-      <script src="js/countryNames.js"></script>
-      <script src="services/commonService.js"></script>
-      <script src="services/weatherService.js"></script>
-      <script src="services/locationService.js"></script>
-      <script src="app.js"></script>
+      <script type="module" src="js/countryNames.js"></script>
+      <script type="module" src="services/weatherService.js"></script>
+      <script type="module" src="services/locationService.js"></script>
+      <script src="services/maps.js"></script>
+      <script type="module" src="app.js"></script>
    </head>
 
    <body>
@@ -36,7 +36,7 @@
             <center>
                <!-- GIF created through https://loading.io , License: CC0/Free use for any purpose -->
                <img src="/assets/Rolling-200px.gif" width="100" />
-               <p>Fetching weather data...</p>
+               <p>Fetching data...</p>
             </center>
          </div>
          <div id="err" style="text-align: center;"></div>
@@ -63,7 +63,7 @@
          <div id="buttons">
             <center>
                <button id="importWeather" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#selectFields">Weather Data</button>
-               <button id="importLocation" onclick="myL3.locationService.importLocation()" class="btn btn-lg btn-primary">Location Data</button>
+               <button id="importLocation" class="btn btn-lg btn-primary">Location Data</button>
             </center>
          </div>
 

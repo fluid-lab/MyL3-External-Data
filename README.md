@@ -14,6 +14,10 @@ For more info visit [MyL3 page of the Fluid wiki](https://wiki.fluidproject.org/
 Steps to run this project locally:
 
 * Configure API keys:
+
+    * How to get API keys:
+        * [Openweathermap key](https://openweathermap.desk.com/customer/portal/articles/1626888-how-to-get-api-key)
+        * [Google maps key](https://developers.google.com/maps/documentation/javascript/get-api-key)
     
     * To configure API keys, create a new file named apiKeys.js.
     
@@ -23,11 +27,12 @@ Steps to run this project locally:
 
     ``` git clone https://github.com/jeevan-jp/MyL3-External-Data.git ```
 
-* Install http-server globally using the following command
+* A local webserver is needed (for error free viewing), http-server is a good option.
+Install http-server globally using the following command:
 
     ``` npm install http-server -g ```
 
-    Mac and Linux users should add suo in the  beginning:
+    Mac and Linux users may need to add sudo at the beginning:
 
     ``` sudo npm install http-server -g ```
 
