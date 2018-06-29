@@ -1,10 +1,10 @@
-import { weatherService } from './services/weatherService.js';
-import { locationService } from './services/locationService.js';
+import { weatherService } from './modules/weatherService.js';
+import { locationService } from './modules/locationService.js';
 
 $(document).ready(() => {
     var myL3 = myL3 || {};
     myL3.oneTimeWeatherData, myL3.oneTimePosition; // to avoid repetitive API calls.
-    myL3.mapAvailable = false;  // helps in showing map and weather table quickly
+    myL3.mapAvailable = false;  // helps in showing the map quickly.
 
     $('#selectAll').on('click', () => {
         $('#selectAll')[0].checked ? $('#s_all').html('DESELECT ALL') : $('#s_all').html('SELECT ALL');

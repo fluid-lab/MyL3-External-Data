@@ -21,11 +21,6 @@ export class locationService {
                 addGoogleMap();
             }
         } else {
-            // Created fakeArray because we need location and we no longer have that
-            // and getData() function contains the code to first import location and 
-            // then weather data. Also we need weather data as well because that gives
-            // us the name of city and country using latitude and longitude.
-    
             weatherService.getData();
         }
     }
