@@ -2,9 +2,17 @@ import { weatherService } from './modules/weatherService.js';
 import { locationService } from './modules/locationService.js';
 
 $(document).ready(() => {
-    var myL3 = myL3 || {};
-    myL3.oneTimeWeatherData, myL3.oneTimePosition; // to avoid repetitive API calls.
-    myL3.mapAvailable = false;  // helps in showing the map quickly.
+    var myL3 = window.myL3 || {};
+    // weather data coming from openweathermap will be stored by getData function into it.
+    myL3.oneTimeWeatherData;
+    // oneTimeWeatherData is useful in avoiding repetitive weather API calls
+    // the value of this var is set when we make owm(openweathermap) API call
+    // this is happening in weatherService.js file
+    // we have placed in aap.js because 
+    myL3.mapAvailable = false;
+    // mapAvailable is a boolean that will be set true when google map is fetched once
+    // Above two variables are preventing repetitive API calls
+    // And will be reset again when user leaves the site or reload.
 
     $('#selectAll').on('click', () => {
         $('#selectAll')[0].checked ? $('#s_all').html('DESELECT ALL') : $('#s_all').html('SELECT ALL');
@@ -55,5 +63,9 @@ $(document).ready(() => {
 
     $('#backBtn').on('click', () => {
         window.location.reload();
+    });
+
+    $('#fitnessHistory').on('click', () => {
+        window.location.href = "/views/googleFit.html";
     });
 });

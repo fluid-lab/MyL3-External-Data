@@ -11,11 +11,12 @@ body {
     margin: 5% 15%; 
 }
 
-#tabularData, #spinner {
+#tabularData, #spinner, .fitnessDataContainer {
     display: none;
 }
 
-#importWeather, #editSelectionBtn, #importLocation {
+#importWeather, #importFit, #fitnessHistory, #editSelectionBtn, 
+#importLocation, #editChoices-fit, #backBtn-fit {
     margin-bottom: 10px;
 }
 
@@ -24,7 +25,7 @@ body {
     margin: 0 35%;
 }
 
-#s_all {
+#s_all, #s_all_fit {
     font-weight: bold;
 }
 
@@ -74,4 +75,40 @@ tr {
     background:#383826;
     margin-bottom: 10px;
     display: none;
+}
+
+.dataCards {
+    display: flex;
+    flex-flow: row wrap;
+    max-width: 400px;
+}
+
+.dataCards > div {
+    display: none;
+    width: 100%;
+    margin-bottom: 10px;
+    min-height: 70px;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    text-align: center;
+    padding: 18px 5px;
+    font-weight: bold;
+}
+
+.dataCards > div:hover {
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+    background: #20c997;
+    border-radius: 5px;
+}
+
+.fitnessDataContainer {
+    max-width: 410px;
+}
+
+#fitness-header {
+    text-align: left;
+    font-style: italic;
+    line-height: 1.3;
+    font-size: 12px;
 }

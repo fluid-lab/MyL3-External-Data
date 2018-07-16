@@ -1,11 +1,17 @@
 export class weather {
     static fetchWeather(position) {
+        var myL3 = window.myL3 || {};
         console.log('Coordinates: ', position);
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
     
         // Taking API key from user
-        const owmKey = prompt("Enter Weather API key:");
+        let owmKey;
+        if(myL3.apiKeys.openweathermapKey) {
+            owmKey = myL3.apiKeys.openweathermapKey;
+        } else {
+            owmKey = prompt("Enter Weather API key:");
+        }
         if(owmKey === null || owmKey === '') {
             $('#spinner').hide();
             alert('Please provide API key');

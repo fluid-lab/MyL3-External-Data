@@ -1,0 +1,104 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Demo Google Fit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
+    <script src="../lib/jquery-3.3.1.min.js"></script>
+    <script src="../lib/bootstrap.min.js"></script>
+    <script src="../scripts/fit.js"></script>
+    <script type="module" src="../scripts/fitHandleClick.js"></script>
+    <script type="module" src="../modules/GoogleFit/fetchFitData.js"></script>
+    <script type="module" src="../modules/GoogleFit/handleHistory.js"></script>
+    <style>
+        select {
+            height: 40px;
+            margin-top: 5px;
+        }
+        button {
+            margin-top: 11px;
+        }
+        #heading {
+            text-align: center;
+            margin: 2% 2%;
+        }
+        #history_inputs {
+            margin-top: 50px;
+            width: 95%;
+            display: flex;
+            justify-content: center;
+        }
+        #myChart {
+            width: 100%;
+            min-height: 200px;
+            max-height: 400px;
+            max-width: 700px;
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <h2>FITNESS HISTORY - 5 DAYS INTERVAL</h2>
+        <div id="spinner" style="display: none;">
+            <center>
+                <!-- GIF created through https://loading.io , License: CC0/Free use for any purpose -->
+                <img src="../assets/Rolling-200px.gif" width="100" />
+                <p>Fetching data...</p>
+            </center>
+        </div>
+
+        <div id="history_inputs">
+            <form class="form-inline" id="fitHistoryForm">
+                <select name="days" id="days">
+                    <option value="0">History of----------</option>
+                    <option value="5">1-5 days</option>
+                    <option value="10">6-10 days</option>
+                    <option value="15">11-15 days</option>
+                    <option value="20">16-20 days</option>
+                    <option value="25">21-25 days</option>
+                    <option value="30">26-30 days</option>
+                </select>
+                &nbsp;
+                <select name="fitness-field" id="fitness-field">
+                    <option value="0">Select Field--------</option>
+                    <option value="1">Height</option>
+                    <option value="2">Weight</option>
+                    <option value="3">Distance</option>
+                    <option value="4">Calories Spent</option>
+                    <option value="5">Steps Count</option>
+                    <option value="6">Pulse rate</option>
+                    <option value="7">Cycling Cadence</option>
+                    <option value="8">Cycle Wheel Speed</option>
+                </select>
+                &nbsp;
+                <label for="bar_g">
+                    <input type="radio" name="graphType" id="bar_g" value="bar">&nbsp;Bar Graph
+                </label>
+                &nbsp;
+                <label for="line_g">
+                    <input type="radio" name="graphType" id="line_g" value="line">&nbsp;Line Graph
+                </label>
+                &nbsp;
+                <button type="submit" class="btn btn-primary mb-2">Submit</button>
+            </form>
+        </div>
+        
+        <div id="graph">
+            <canvas id="myChart" height="400"></canvas>
+        </div>
+
+        <div onclick="window.location.href='/'">
+            <button class="btn btn-info">Home</button>
+        </div>
+    </center>
+    
+    <script src="../scripts/apiKeys.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+    <script async defer src="https://apis.google.com/js/api.js" 
+            onload="this.onload=function(){}; handleClientLoad()" 
+            onreadystatechange="if (this.readyState === 'complete') this.onload()">
+    </script>
+</body>
+</html>

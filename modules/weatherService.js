@@ -1,14 +1,8 @@
-// This service is doing following tasks-
-// 1. Get location permission and position(coordinates) of learner
-// 2. Using latitude and longitude of learner, it fetches weather data
-//    from openweathermap API.
-// 3. Set oneTimeWeatherData and one oneTimePosition that will be used to
-//    add data into weather table and googleMap.
-import { countryNames } from '../js/countryNames.js';
+import { countryNames } from '../scripts/countryNames.js';
 import { weather } from './weather.js';
 import { appendIntoTable } from './appendIntoTable.js';
 
-myL3 = myL3 || {};
+var myL3 = myL3 || {};
 
 export class weatherService {
 
@@ -21,6 +15,7 @@ export class weatherService {
         // [1,2,3,4,5] if user clicks on first five checkboxes.
         if($('#tabularData tbody').children().length > 1) {
             $('#weatherTable').hide();
+            // Following steps remove elements currently present in the table.
             const children = $('#tabularData tbody').children();
             for(let i=1; i<children.length; i++) {
                 $('#tabularData tbody').children()[1].remove();
@@ -50,14 +45,14 @@ export class weatherService {
             const getWeatherData = (position) => {
                 myL3.oneTimePosition = position;
 
-                // fetchWeather function returns a Promise
+                // fetchWeather function returns a PROMISE
                 weather.fetchWeather(position)
                     .then((weatherData) => {
                         if(weatherData !== 'error') {
                             console.log('Weather JSON', weatherData);
                             myL3.oneTimeWeatherData = weatherData;
                             $('#spinner').hide();
-            
+
                             if(fields.length) {     // this means we need weather data not location data
                                 $('#map').hide();
                                 appendIntoTable.addDataIntoTable(weatherData, fields);
@@ -66,7 +61,7 @@ export class weatherService {
                                 if(myL3.mapAvailable) {
                                     $('#map').show();
                                 } else {
-                                    addGoogleMap();
+                                    addGoogleMap(position);
                                 }
                                 $('#city').html(`Country: ${countryNames[weatherData.sys.country]},
                                     City: ${weatherData.name} <br><br>`);
@@ -80,7 +75,7 @@ export class weatherService {
                         console.log(JSON.parse(err.responseText));
                     });
             }
-    
+
             navigator.geolocation.getCurrentPosition(getWeatherData, error, options);
         }
         else {

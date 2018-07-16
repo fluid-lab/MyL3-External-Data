@@ -1,12 +1,11 @@
 import { weatherService } from './weatherService.js';
 
-var myL3 = myL3 || {};
-
 export class locationService {
-
+    
     constructor() {};
 
     static importLocation () {
+        var myL3 = window.myL3 || {};
         $('#weatherTable').hide();
         $('#buttons').hide();
         $('#spinner').show();

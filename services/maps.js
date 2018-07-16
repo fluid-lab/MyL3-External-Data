@@ -1,10 +1,10 @@
-function addGoogleMap() {
+function addGoogleMap(position) {
     // callback function used by google maps.
-    myL3 = myL3 || {};
+    var myL3 = window.myL3 || {};
     myMap = () => {
-        const myLatLng = { 
-            lat: myL3.oneTimePosition.coords.latitude,
-            lng: myL3.oneTimePosition.coords.longitude
+        const myLatLng = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
         };
     
         let map = new google.maps.Map(document.getElementById("map"), {
@@ -24,7 +24,12 @@ function addGoogleMap() {
     let script = document.createElement('script');
     script.async = true;
     script.defer = true;
-    var mapKey = prompt("Please enter Google maps key:");
+    let mapKey;
+    if(myL3.apiKeys.googleMapKey) {
+        mapKey = myL3.apiKeys.googleMapKey;
+    } else {
+        mapKey = prompt("Please enter Google maps key:");
+    }
     if(mapKey === null || mapKey === '') {
         $('#spinner').hide();
         alert('Please provide API key');
