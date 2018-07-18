@@ -35,9 +35,13 @@ $(document).ready(() => {
             for(let i=0; i<fieldsSelectedByLearner.length; i++) {
                 links.push(dataTypeForValue[fieldsSelectedByLearner[i]]);
             }
-            $('#buttons').hide();
-            $('#spinner').show();
-            fitProvider.fetchGoogleFitData(links);
+            if (!navigator.onLine) {
+                alert('Please check if you are online');
+            } else {
+                $('#buttons').hide();
+                $('#spinner').show();
+                fitProvider.fetchGoogleFitData(links);
+            }
         });
 
         $('#allFitnessFields').on('click', () => {
@@ -54,6 +58,6 @@ $(document).ready(() => {
     });
 
     $('#backBtn-fit').on('click', () => {
-        window.location.href = "/";
+        window.location.href = "/googleFit.html";
     });
 });

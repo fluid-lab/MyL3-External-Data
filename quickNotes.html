@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>MyL3 External Data</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+      <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+      <link rel="stylesheet" href="styles.css" />
+
+      <script src="lib/jquery-3.3.1.min.js"></script>
+      <script src="lib/bootstrap.min.js"></script>
+      <script src="scripts/apiKeys.js"></script>
+      <script src="services/maps.js"></script>
+      <script src="scripts/fit.js"></script>
+      <script type="module" src="scripts/countryNames.js"></script>
+      <script type="module" src="modules/weather.js"></script>
+      <script type="module" src="modules/appendIntoTable.js"></script>
+      <script type="module" src="modules/weatherService.js"></script>
+      <script type="module" src="modules/locationService.js"></script>
+      <script type="module" src="scripts/fitHandleClick.js"></script>
+      <script type="module" src="modules/GoogleFit/fetchFitData.js"></script>
+      <script type="module" src="app.js"></script>
+      <style>
+          #buttons {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              width: 100%;
+              max-width: 650px;
+              margin: 0px auto;
+              padding: 5px;
+              background-color: #f2f2f2;
+              border-top: 2px solid #000;
+              border-bottom: 2px solid #000;
+          }
+          .heading_text {
+              width: 80%;
+              margin: 0 auto 30px auto;
+              font-weight: bold;
+          }
+          .button_container {
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+          }
+          .button_large {
+              height: 120px;
+              width: 35%;
+              max-width: 120px;
+              text-align: center;
+              border: 2px solid #000;
+              cursor: pointer;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+          }
+          .button_large:hover {
+              border: 3px solid black;
+          }
+          .fitnessDataContainer, #buttons {
+              margin-bottom: 60px;
+          }
+          .text {
+              width: 65%;
+              margin-left: 20px;
+          }
+      </style>
+   </head>
+
+   <body>
+      <div class="header">
+          <span id="heading" onclick="window.location='/'"> My Lifelong Learning Lab</span>
+      </div>
+      <div class="container">
+
+         <center>
+            <div id="map" class="col-xs-12"></div>
+            <div id="city"></div>
+         </center>
+         <div id="spinner">
+            <center>
+               <!-- GIF created through https://loading.io , License: CC0/Free use for any purpose -->
+               <img src="/assets/Rolling-200px.gif" width="100" />
+               <p>Fetching data...</p>
+            </center>
+         </div>
+         <div id="err" style="text-align: center;"></div>
+
+         <div id="weatherTable">
+            <center>
+               <table id="tabularData">
+                  <tbody>
+                     <tr id="tr_1">
+                        <th>Parameter</th>
+                        <th>Value</th>
+                     </tr>
+                  </tbody>
+               </table>
+            </center>
+         </div>
+
+         <div id="editSelectionBtn" style="display: none;">
+            <center>
+               <button id="editChoices" class="btn btn-info">Edit choices</button>
+            </center>
+         </div>
+
+         <div id="buttons">
+            <div class="heading_text">
+                Choose any of the following sources to add an auto note
+                and start importing their data to your MyL3:
+            </div>
+            <div class="button_container">
+                <div class="button_large" id="importWeather" data-toggle="modal" data-target="#selectFields">
+                    <center><img src="/assets/owm-logo.png" alt="own logo" width="60px" height="60px" /></center>
+                </div> &nbsp;
+                <div class="text">
+                    <strong>Weather</strong> <br>
+                    Import Real Time Weather Forecast to your MyL3
+                </div>
+            </div>
+            <div class="button_container">
+                <div class="button_large" id="importLocation">
+                    <center><img src="/assets/gmaps-logo.png" alt="own logo" width="60px" height="60px" /></center>
+                </div> &nbsp;
+                <div class="text">
+                    <strong>Location</strong> <br>
+                    Import Real Time Location data to your MyL3
+                </div>
+            </div>
+            <div class="button_container">
+                <div class="button_large" id="importFit">
+                    <center><img src="/assets/fitLogo.png" alt="own logo" width="60px" height="60px" /></center>
+                </div> &nbsp;
+                <div class="text">
+                    <strong>Fitness Data</strong> <br>
+                    Import your Google Fit data to your MyL3
+                </div>
+            </div>
+         </div>
+
+         <div id="goBack" style="display: none; padding-bottom: 60px;">
+             <center>
+                <button id="backBtn" onclick="window.location.href='/quickNotes.html'" class="btn btn-info">Back</button>
+             </center>
+         </div>
+
+         <div class="modal fade" id="selectFields">
+            <div class="modal-dialog modal-sm modal-dialog-centered">
+               <div class="modal-content">
+
+                  <div class="modal-header">
+                     <h5 class="modal-title">Select data you need</h5>
+                     <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+
+                  <div class="modal-body" style="margin-left: 10px;">
+                     <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="selectAll" value="">
+                            <span id="s_all">SELECT ALL</span>
+                        </label>
+                     </div>
+                     <form id="weatherFieldsForm" name="weatherFieldsForm" method="post">
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="temp_f" value=1>Temperature (F)
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="temp_c" value=2>Temprature (C)
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="atm_p" value=3>Atmospheric Pressure
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="humid" value=4>Humidity
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="wind_sk" value=5>Wind speed(km/h)
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="wind_sm" value=6>Wind speed(m/s)
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="wind_d" value=7>Wind Direction
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="sunrsie" value=8>Sunrise
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="sunset" value=9>Sunset
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="weather_des" value=10>Weather Description
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="visibility" value=11>Visibilty Range(meters)
+                           </label>
+                        </div>
+                        <div class="modal-footer">
+                           <button type="submit" class="btn btn-primary">Submit</button>
+                           <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div> <!-- end of weather and location -->
+
+         <!-- Modal, buttons and container for Google Fit-->
+         <center>
+            <div class="fitnessDataContainer col-xs-12">
+                <div id="fitness-header">
+                    <p>
+                    <strong>How to use google fit?</strong>  <br>
+                    * Create a google account if you don't have one <br>
+                    * Install Google Fit App in your smartphone <br>
+                    * The application will take permissions to count user’s steps, <br>
+                      &nbsp; distance covered and other data by using mobile phone’s sensors. <br>
+                    * Do regular exercise and fitness activities to see results in the playground.</p>
+                   <div id="heading"></div> <h6 style="color: #007bff">Today's health and fitness details in cards format</h6>
+                </div>
+                <div class="dataCards">
+                    <div id="height"></div>
+                    <div id="weight"></div>
+                    <div id="distance"></div>
+                    <div id="calories_spent"></div>
+                    <div id="steps_count"></div>
+                    <div id="bpm"></div>
+                    <div id="cycle_cad"></div>
+                    <div id="wheel_rpm"></div>
+                </div>
+            </div>
+         </center>
+
+         <div id="editSelectionBtn-fit" style="display: none;">
+            <center>
+               <button id="editChoices-fit" class="btn btn-lg btn-info">Edit choices</button>
+            </center>
+         </div>
+
+         <div id="goBack-fit" style="display: none;">
+            <center>
+               <button id="backBtn-fit" class="btn btn-lg btn-info">Back</button>
+            </center>
+        </div>
+
+         <div class="modal fade" id="fitChoices">
+            <div class="modal-dialog modal-sm modal-dialog-centered">
+               <div class="modal-content">
+
+                  <div class="modal-header">
+                     <h5 class="modal-title">Select data you need</h5>
+                     <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+
+                  <div class="modal-body" style="margin-left: 10px;">
+                     <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="allFitnessFields" value="">
+                            <span id="s_all_fit">SELECT ALL</span>
+                        </label>
+                     </div>
+                     <form id="fitnessFieldsForm" name="fitnessFieldsForm" method="post">
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="height" value=1>Height
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="weight" value=2>Weight
+                           </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                               <input type="checkbox" class="form-check-input" name="distance" value=3>Distance
+                            </label>
+                         </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="calories_spent" value=4>Calories spent
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="steps_count" value=5>Steps Count
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="bpm" value=6>BPM last recorded
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="cycle_cad" value=7>Cycling Cadence
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="wheel_rpm" value=8>Wheel revolution(RPM)
+                           </label>
+                        </div>
+                        <div class="modal-footer">
+                           <button type="submit" class="btn btn-primary">Submit</button>
+                           <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="footer">
+            <div class="footer_btn" id="ftr_btn_1" onclick="window.location.href='/'">Home</div>
+            <div class="footer_btn" id="ftr_btn_2" onclick="window.location='/quickNotes.html'">Quick Notes</div>
+            <div class="footer_btn" id="ftr_btn_3" onclick="window.location='/views/googleFit.html'">Playground</div>
+      </div>
+      <script async defer src="https://apis.google.com/js/api.js"
+             onload="this.onload=function(){}; handleClientLoad()" 
+             onreadystatechange="if (this.readyState === 'complete') this.onload()">
+      </script>
+      <script>
+          $('.footer_btn').removeClass('active');
+          $('#ftr_btn_2').addClass('active');
+      </script>
+   </body>
+</html>

@@ -23,31 +23,35 @@ $(document).ready(() => {
     });
 
     $("#weatherFieldsForm").on('submit', (e) => {
-        $('#city').hide();
-        $('#buttons').hide();
-        $('#goBack').show();
-        if(!myL3.oneTimeWeatherData) {
-            $('#spinner').show();
-        }
-
-        // The following array will contain "values" of html elements from
-        // modal's form for e.g. [1,2,3,4,5] (if user selects first five fields)
-        let fieldsSelectedByLearner = [];
         e.preventDefault();     // prevent form submission
-        const form = document.getElementById('weatherFieldsForm');
-        let formData = new FormData(form);
-        
-        for( let ent of formData.entries()) {
-            fieldsSelectedByLearner.push(ent[1]);
-        }
+        if(!navigator.onLine) {
+            alert('You are not online.');
+        } else {        
+            $('#city').hide();
+            $('#buttons').hide();
+            $('#goBack').show();
+            if(!myL3.oneTimeWeatherData) {
+                $('#spinner').show();
+            }
 
-        if(fieldsSelectedByLearner.length==0) {
-            alert('Please select atleast one field');
-        } else {
-            $('#selectFields').modal("hide");
-            $('#importWeather').hide();
-            $('#editSelectionBtn').show();
-            weatherService.getData(fieldsSelectedByLearner);
+            // The following array will contain "values" of html elements from
+            // modal's form for e.g. [1,2,3,4,5] (if user selects first five fields)
+            let fieldsSelectedByLearner = [];
+            const form = document.getElementById('weatherFieldsForm');
+            let formData = new FormData(form);
+            
+            for( let ent of formData.entries()) {
+                fieldsSelectedByLearner.push(ent[1]);
+            }
+
+            if(fieldsSelectedByLearner.length == 0) {
+                alert('Please select atleast one field');
+            } else {
+                $('#selectFields').modal("hide");
+                $('#importWeather').hide();
+                $('#editSelectionBtn').show();
+                weatherService.getData(fieldsSelectedByLearner);
+            }
         }
     });
 
@@ -59,10 +63,6 @@ $(document).ready(() => {
 
     $('#importLocation').on('click', () => {
         locationService.importLocation();
-    });
-
-    $('#backBtn').on('click', () => {
-        window.location.reload();
     });
 
     $('#fitnessHistory').on('click', () => {

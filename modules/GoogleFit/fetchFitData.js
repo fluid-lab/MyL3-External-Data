@@ -2,10 +2,7 @@ export class fitProvider {
 
   static fetchGoogleFitData(linksToFetch) {
 
-    if (!navigator.onLine) {
-      alert('Please check if you are online');
-    }
-    else if(!GoogleAuth) {
+    if(!GoogleAuth) {
       alert('Loading...Please wait');
     }
     else if(!GoogleAuth.isSignedIn.Ab) {

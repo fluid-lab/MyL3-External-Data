@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="../assets/favicon.ico">
     <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../styles.css" />
     <script src="../lib/jquery-3.3.1.min.js"></script>
     <script src="../lib/bootstrap.min.js"></script>
     <script src="../scripts/fit.js"></script>
@@ -13,92 +14,146 @@
     <script type="module" src="../modules/GoogleFit/fetchFitData.js"></script>
     <script type="module" src="../modules/GoogleFit/handleHistory.js"></script>
     <style>
-        select {
+        ._container {
+            margin: 5px;
+            margin-top: 80px;
+            margin-bottom: 60px;
+        }
+        select, input.full-width  {
             height: 40px;
+            border: 1px solid gray;
             margin-top: 5px;
+        }
+        .full-width {
+            width: 100%;
         }
         button {
             margin-top: 11px;
+        }
+        label {
+            font-weight: bold;
+            font-size: 12px;
         }
         #heading {
             text-align: center;
             margin: 2% 2%;
         }
         #history_inputs {
-            margin-top: 50px;
+            margin-top: 30px;
             width: 95%;
+            padding: 10px 10px;
+        }
+        .shadow {
+            background: white;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+        }
+        .graphs {
+            margin-top: 30px;
             display: flex;
+            flex-flow: row wrap;
             justify-content: center;
         }
-        #myChart {
-            width: 100%;
-            min-height: 200px;
-            max-height: 400px;
-            max-width: 700px;
+        #graph {
+            margin: 5px 5px;
+            min-width: 350px;
         }
     </style>
 </head>
 <body>
-    <center>
-        <h2>FITNESS HISTORY - 5 DAYS INTERVAL</h2>
-        <div id="spinner" style="display: none;">
-            <center>
-                <!-- GIF created through https://loading.io , License: CC0/Free use for any purpose -->
-                <img src="../assets/Rolling-200px.gif" width="100" />
-                <p>Fetching data...</p>
-            </center>
-        </div>
+    <div class="header">
+        <span id="heading" onclick="window.location='/'"> My Lifelong Learning Lab</span>
+    </div>
+    <div class="_container">
+        <center>
+            <h2>HISTORY ANALYSIS</h2>
+            <div id="spinner" style="display: none;">
+                <center>
+                    <!-- GIF created through https://loading.io , License: CC0/Free use for any purpose -->
+                    <img src="../assets/Rolling-200px.gif" width="100" />
+                    <p>Fetching data...</p>
+                </center>
+            </div>
+    
+            <div class="row">
+                <div class="col-xs-12 col-md-4" style="max-width: 300px;">
+                    <div class="shadow" id="history_inputs">
+                        <form class="form-inline" id="fitHistoryForm">
+                            <label>START DATE* &nbsp;</label>
+                            <div class="input_date full-width">
+                                <input type="date" class="full-width" name="from">
+                            </div>
+                            <label>END DATE* &nbsp;</label>
+                            <div class="input_date full-width">
+                                <input type="date" class="full-width" name="to">
+                            </div>
+                            <label>SELECT FIELD*</label>
+                            <select name="fitness-field" class="full-width" id="fitness-field">
+                                <option value="0">Select Field--------</option>
+                                <option value="1">Height</option>
+                                <option value="2">Weight</option>
+                                <option value="3">Distance</option>
+                                <option value="4">Calories Spent</option>
+                                <option value="5">Steps Count</option>
+                                <option value="6">Pulse rate</option>
+                                <option value="7">Cycling Cadence</option>
+                                <option value="8">Cycle Wheel Speed</option>
+                            </select>
+                            <select name="days" class="full-width" id="days">
+                                <option value="0">History of----------</option>
+                                <option value="5">1-5 days</option>
+                                <option value="10">6-10 days</option>
+                                <option value="15">11-15 days</option>
+                                <option value="20">16-20 days</option>
+                                <option value="25">21-25 days</option>
+                                <option value="30">26-30 days</option>
+                            </select>
+                            <label for="bar_g">
+                                <input type="radio" name="graphType" id="bar_g" value="bar">&nbsp;Bar Graph
+                            </label>
+                            &nbsp;
+                            <label for="line_g">
+                                <input type="radio" name="graphType" id="line_g" value="line">&nbsp;Line Graph
+                            </label>
+                            &nbsp;
+                            <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="col-xs-12 col-md-8 graphs">
+                    <div id="graph" class="shadow">
+                        <canvas id="myChart" height="300"></canvas>
+                    </div>
+                    <div id="graph" class="shadow">
+                        <canvas id="myChart" height="300"></canvas>
+                    </div>
+                    <div id="graph" class="shadow">
+                        <canvas id="myChart" height="300"></canvas>
+                    </div>
+                    <div id="graph" class="shadow">
+                        <canvas id="myChart" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
 
-        <div id="history_inputs">
-            <form class="form-inline" id="fitHistoryForm">
-                <select name="days" id="days">
-                    <option value="0">History of----------</option>
-                    <option value="5">1-5 days</option>
-                    <option value="10">6-10 days</option>
-                    <option value="15">11-15 days</option>
-                    <option value="20">16-20 days</option>
-                    <option value="25">21-25 days</option>
-                    <option value="30">26-30 days</option>
-                </select>
-                &nbsp;
-                <select name="fitness-field" id="fitness-field">
-                    <option value="0">Select Field--------</option>
-                    <option value="1">Height</option>
-                    <option value="2">Weight</option>
-                    <option value="3">Distance</option>
-                    <option value="4">Calories Spent</option>
-                    <option value="5">Steps Count</option>
-                    <option value="6">Pulse rate</option>
-                    <option value="7">Cycling Cadence</option>
-                    <option value="8">Cycle Wheel Speed</option>
-                </select>
-                &nbsp;
-                <label for="bar_g">
-                    <input type="radio" name="graphType" id="bar_g" value="bar">&nbsp;Bar Graph
-                </label>
-                &nbsp;
-                <label for="line_g">
-                    <input type="radio" name="graphType" id="line_g" value="line">&nbsp;Line Graph
-                </label>
-                &nbsp;
-                <button type="submit" class="btn btn-primary mb-2">Submit</button>
-            </form>
-        </div>
-        
-        <div id="graph">
-            <canvas id="myChart" height="400"></canvas>
-        </div>
-
-        <div onclick="window.location.href='/'">
-            <button class="btn btn-info">Home</button>
-        </div>
-    </center>
+            <button class="btn btn-info" onclick="window.location.href='/'">Home</button>
+        </center>
+    </div>
+    <div class="footer">
+        <div class="footer_btn" id="ftr_btn_1" onclick="window.location.href='/'">Home</div>
+        <div class="footer_btn" id="ftr_btn_2" onclick="window.location='/quickNotes.html'">Quick Notes</div>
+        <div class="footer_btn" id="ftr_btn_3" onclick="window.location='/views/googleFit.html'">Playground</div>
+    </div>
     
     <script src="../scripts/apiKeys.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
     <script async defer src="https://apis.google.com/js/api.js" 
             onload="this.onload=function(){}; handleClientLoad()" 
             onreadystatechange="if (this.readyState === 'complete') this.onload()">
+    </script>
+    <script>
+        $('.footer_btn').removeClass('active');
+        $('#ftr_btn_3').addClass('active')
     </script>
 </body>
 </html>

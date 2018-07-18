@@ -16,22 +16,41 @@ $(document).ready(() => {
             8: "com.google.cycling.wheel_revolution.rpm"
         }
         let days, dataType;
+        let formObject = {};
         for ( let ent of formData.entries()) {
-          if(ent[0] === "days") {
+          console.log(ent);
+          if(ent[0] === "from") {
+            formObject.startMilliSeconds = getMilliSeconds(ent[1]);
+          }
+          else if(ent[0] === "to") {
+            formObject.endMilliSeconds = getMilliSeconds(ent[1]);
+          }
+          else if(ent[0] === "days") {
             days = ent[1];
           }
           else if(ent[0] === "fitness-field") {
-            dataType = linksForValues[ent[1]]
+            dataType = linksForValues[ent[1]];
+            formObject.dataType = dataType;
           }
         }
-        if(days && dataType) {
+        if(Object.keys(formObject).length === 3) {
           fetchGoogleFitData(days, dataType);
         } else {
-          alert('Please select valid field');
+          alert('All the field were not provided');
         }
     });
 
+    function getMilliSeconds(date) {
+      const dateString = new Date(date);
+      const hrs = dateString.getHours();
+      const mins = dateString.getMinutes();
+      const seconds = dateString.getSeconds();
+      const milliseconds = dateString.getTime() - ((hrs*60 + mins)*60 + seconds) * 1000;
+      return milliseconds;
+    }
+
     function fetchGoogleFitData(days, dataType) {
+      console.log(days, dataType);
 
       if (!navigator.onLine) {
         alert('Please check if you are online');
@@ -46,7 +65,6 @@ $(document).ready(() => {
       else if(!isAuthorized()) {
         GoogleAuth.Q1()   // Q1 prompts user to give MyL3 the access of fit data.
         .then((data) => {
-          counter = 0;
           displayData();
         });
       }
@@ -62,34 +80,37 @@ $(document).ready(() => {
       function displayData() {
         const user = GoogleAuth.currentUser.get();
         if(user.Zi.access_token) {
-          bringData(user.Zi.access_token); // 0 is the value of counter
+          bringData(user.Zi.access_token);
         } else {
           GoogleAuth.T8()
           .then((res) => {
             bringData(res.access_token);
           });
         }
-        $('#spinner').hide();
         $('.fitnessDataContainer').show();
       }
-    
-      function bringData(token) {
-        $('#spinner').show();
-        // "token" is the access_token retrieved from OAuth 2.0
-        // counter counts if all the data types selected are successfully fetched
+
+      function startAndEndTime() {
+        let bothTimings = {};
         const milliSecondsFromMidnight = (new Date().getHours() * 60 + new Date().getMinutes())*60*1000;
         const currentTime = new Date().getTime();
         // We want previous 5 days data till last midnight
-        const startTime =  currentTime - milliSecondsFromMidnight - days * 86400000;
+        bothTimings.startTime =  currentTime - milliSecondsFromMidnight - days * 86400000;
         const milliSecsInFiveDays = 432000000;
-        const endTime = startTime + milliSecsInFiveDays;
+        bothTimings.endTime = bothTimings.startTime + milliSecsInFiveDays;
+        return bothTimings;
+      }
+    
+      function bringData(token) {
+        // "token" is the access_token retrieved from OAuth 2.0
+        const bothTimings = startAndEndTime();
         const data = {
           "aggregateBy": [{
             "dataTypeName": dataType
           }],
           "bucketByTime": { "durationMillis":  86400000 },
-          "startTimeMillis": startTime,
-          "endTimeMillis": endTime
+          "startTimeMillis": bothTimings.startTime,
+          "endTimeMillis": bothTimings.endTime
         };
         const url = 'https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate';
         $.ajax({
@@ -109,52 +130,55 @@ $(document).ready(() => {
           dataType: 'json'
         })
           .done((res) => {
-            try {
-              const bucket = res.bucket;
-              const monthNameByNumber = [
-                "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-              ]
-              let dateArray = [];
-              for(let i=0; i<5; i++) {
-                var date = new Date(startTime + i * 86400000)
-                const month = date.getMonth();
-                const day = date.getDate();
-                dateArray.push(monthNameByNumber[month] + " " + day);
-              }
-              createValuesArray(bucket, dateArray);
-            }
-            catch(err) {
-              console.log(err);
-            }
+            handleFetchedData(res.bucket, bothTimings);
           });
       }
 
-      function createValuesArray(bucket, dateArray) {
-        let fiveDaysData = [];
+      function handleFetchedData(bucket, bothTimings) {
+        try {
+          const monthNameByNumber = [
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+          ]
+          let dateArray = [];
+          for(let i=0; i<5; i++) {
+            var date = new Date(bothTimings.startTime + i * 86400000)
+            const month = date.getMonth();
+            const day = date.getDate();
+            dateArray.push(monthNameByNumber[month] + " " + day);
+          }
+          createValuesArray(bucket, dateArray);
+          // function will create an array with values for Y-axis
+        }
+        catch(err) {
+          console.log(err);
+        }
+      }
 
+      function createValuesArray(bucket, dateArray) {
+        let nDayData = [];
         
         for(let i=0; i<bucket.length; i++) {
           if(bucket[bucket.length - i - 1].dataset[0].point[0]) {
             const value = bucket[bucket.length - i - 1].dataset[0].point[0].value[0];
             if(value.intVal) {
-              fiveDaysData.push(value.intVal);
+              nDayData.push(value.intVal);
             } else {
-              fiveDaysData.push(value.fpVal.toFixed());
+              nDayData.push(value.fpVal.toFixed());
             }
           }
           else {
-            fiveDaysData.push(0);
+            nDayData.push(0);
           }
         }
-        createGraph(fiveDaysData, dateArray);
+        createGraph(nDayData, dateArray);
       }
 
-      function createGraph(fiveDaysData, dateArray) {
+      function createGraph(nDayData, dateArray) {
         // removing and appending canvas to prevent overlapping of updated chart.
         $('#graph').html('');
         $('#graph').html('<canvas id="myChart" height="400"></canvas>');
-        dataToToggleGraph.per_day_data = fiveDaysData;
+        dataToToggleGraph.per_day_data = nDayData;
         dataToToggleGraph.dates = dateArray;
         dataToToggleGraph.current_chart = $('input[name="graphType"]:checked').val();
         var ctx = document.getElementById("myChart").getContext('2d');
@@ -164,7 +188,7 @@ $(document).ready(() => {
               labels: dateArray,
               datasets: [{
                   label: $('#fitness-field').children()[$('#fitness-field')[0].value].innerText,
-                  data: fiveDaysData,
+                  data: nDayData,
                   backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',

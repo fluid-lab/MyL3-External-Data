@@ -56,7 +56,7 @@ export class weatherService {
                             if(fields.length) {     // this means we need weather data not location data
                                 $('#map').hide();
                                 appendIntoTable.addDataIntoTable(weatherData, fields);
-                                $('#tabularData').show();
+                                $('#tabularData').show(1000);
                             } else {    // Display country, city and map with marker
                                 if(myL3.mapAvailable) {
                                     $('#map').show();
