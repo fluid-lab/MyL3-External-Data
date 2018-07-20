@@ -48,8 +48,9 @@ export class fitProvider {
       // "token" is the access_token retrieved from OAuth 2.0
       // "counter" makes sure that all the data types are successfully fetched.
       const source = linksToFetch[counter];
-      const milliSecondsFromMidnight = ((new Date().getHours() * 60 + new Date().getMinutes())*60 + new Date().getSeconds())*1000;
-      const currentTime = new Date().getTime();
+      const date = new Date();
+      const milliSecondsFromMidnight = ((date.getHours() * 60 + date.getMinutes())*60 + date.getSeconds())*1000;
+      const currentTime = date.getTime();
       const data = {
         "aggregateBy": [{
           "dataTypeName": source
@@ -62,7 +63,7 @@ export class fitProvider {
       const url = 'https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate';
       $.ajax({
         statusCode: {
-          500: function() {
+          500: () => {
               if(counter == linksToFetch.length - 1) {
                 $('#goBack-fit').show();
                 $('#editSelectionBtn-fit').show();
@@ -71,7 +72,17 @@ export class fitProvider {
                 bringData(token, ++counter);
               }
               showResult('error', source);
-           }
+           },
+           400: () => {
+              if(counter == linksToFetch.length - 1) {
+                $('#goBack-fit').show();
+                $('#editSelectionBtn-fit').show();
+              }
+              if(counter<linksToFetch.length-1) {
+                bringData(token, ++counter);
+              }
+              showResult('error', source);
+          }
         },
         method: "POST",
         headers: {

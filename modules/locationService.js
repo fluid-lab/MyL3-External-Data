@@ -6,11 +6,13 @@ export class locationService {
 
     static importLocation () {
         if(!navigator.onLine) {
-            alert('You are not online.');
+            alert('Seems you are offline.');
         } else {        
             var myL3 = window.myL3 || {};
             $('#weatherTable').hide();
+            $('.heading_text').hide();
             $('#buttons').hide();
+            $('#heading_location_data').show();
             $('#spinner').show();
             $('#goBack').show();
         

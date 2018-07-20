@@ -25,10 +25,12 @@ $(document).ready(() => {
     $("#weatherFieldsForm").on('submit', (e) => {
         e.preventDefault();     // prevent form submission
         if(!navigator.onLine) {
-            alert('You are not online.');
+            alert('Seems you are offline.');
         } else {        
             $('#city').hide();
+            $('.heading_text').hide();
             $('#buttons').hide();
+            $('#heading_weather_data').show();
             $('#goBack').show();
             if(!myL3.oneTimeWeatherData) {
                 $('#spinner').show();
