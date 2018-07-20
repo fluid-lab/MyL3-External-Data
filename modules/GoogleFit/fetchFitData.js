@@ -5,21 +5,32 @@ export class fitProvider {
     if(!GoogleAuth) {
       alert('Loading...Please wait');
     }
-    else if(!GoogleAuth.isSignedIn.Ab) {
-        GoogleAuth.signIn();
-        return;
+    else if(!GoogleAuth.isSignedIn.get()) {
+      // signIn() prompts the user to sign in as well as asks for
+      // API permissions as well (different from GoogleAuth.Q1())
+      GoogleAuth.signIn();
+      GoogleAuth.isSignedIn.listen(handleUserSignIn);
     } 
     else if(!isAuthorized()) {
       // Q1 prompts user to give MyL3 the access of fit data.
+      // Remember, Q1 doesn't prompt user to sign
       GoogleAuth.Q1()
       .then((data) => {
         console.log(data);
-        counter = 0;
         displayData();
       });
     }
     else {
         displayData();
+    }
+
+    function handleUserSignIn() {
+      if(GoogleAuth.isSignedIn.get()) {
+        console.log('google user signed in');
+        displayData();
+      } else {
+        console.log('google user signed out');
+      }
     }
 
     function isAuthorized() {
@@ -64,24 +75,24 @@ export class fitProvider {
       $.ajax({
         statusCode: {
           500: () => {
-              if(counter == linksToFetch.length - 1) {
-                $('#goBack-fit').show();
-                $('#editSelectionBtn-fit').show();
-              }
-              if(counter<linksToFetch.length-1) {
-                bringData(token, ++counter);
-              }
-              showResult('error', source);
-           },
-           400: () => {
-              if(counter == linksToFetch.length - 1) {
-                $('#goBack-fit').show();
-                $('#editSelectionBtn-fit').show();
-              }
-              if(counter<linksToFetch.length-1) {
-                bringData(token, ++counter);
-              }
-              showResult('error', source);
+            if(counter == linksToFetch.length - 1) {
+              $('#goBack-fit').show();
+              $('#editSelectionBtn-fit').show();
+            }
+            if(counter<linksToFetch.length-1) {
+              bringData(token, ++counter);
+            }
+            showResult('error', source);
+          },
+          400: () => {
+            if(counter == linksToFetch.length - 1) {
+              $('#goBack-fit').show();
+              $('#editSelectionBtn-fit').show();
+            }
+            if(counter<linksToFetch.length-1) {
+              bringData(token, ++counter);
+            }
+            showResult('error', source);
           }
         },
         method: "POST",
@@ -156,8 +167,9 @@ export class fitProvider {
       else if(/step_count/.test(source)) {
         if(value === 'error') {
           $('#steps_count').html('No steps taken.');
+        } else {
+          $('#steps_count').html(`You took a total of ${finalValue} steps today.`);
         }
-        $('#steps_count').html(`You took a total of ${finalValue} steps today.`);
         $('#steps_count').show(500);
       }
       else if(/bpm$/.test(source)) {

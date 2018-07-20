@@ -34,7 +34,7 @@ $(document).ready(() => {
           }
         }
         if(Object.keys(formObject).length === 3) {
-          fetchGoogleFitData(days, dataType);
+          fetchGoogleFitHistoryData(days, dataType);
         } else {
           alert('All the field were not provided');
         }
@@ -49,7 +49,7 @@ $(document).ready(() => {
       return milliseconds;
     }
 
-    function fetchGoogleFitData(days, dataType) {
+    function fetchGoogleFitHistoryData(days, dataType) {
       console.log(days, dataType);
 
       if (!navigator.onLine) {
@@ -59,8 +59,10 @@ $(document).ready(() => {
         alert('Loading...Please wait');
       }
       else if(!GoogleAuth.isSignedIn.Ab) {
-          GoogleAuth.signIn();
-          return;
+        // signIn() prompts the user to sign in as well as asks for
+        // API permissions as well (different from GoogleAuth.Q1())
+        GoogleAuth.signIn();
+        GoogleAuth.isSignedIn.listen(handleUserSignIn);
       } 
       else if(!isAuthorized()) {
         GoogleAuth.Q1()   // Q1 prompts user to give MyL3 the access of fit data.
@@ -70,6 +72,15 @@ $(document).ready(() => {
       }
       else {
           displayData();
+      }
+
+      function handleUserSignIn() {
+        if(GoogleAuth.isSignedIn.get()) {
+          console.log('google user signed in');
+          displayData();
+        } else {
+          console.log('google user signed out');
+        }
       }
     
       function isAuthorized() {
