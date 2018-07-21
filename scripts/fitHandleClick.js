@@ -1,6 +1,6 @@
 import { fitProvider } from '../modules/GoogleFit/fetchFitData.js';
 
-$(document).ready(() => { 
+$(document).ready(() => {
     $('#importFit').on('click', (e) => {
         $('#fitChoices').modal('show');
 
@@ -28,16 +28,20 @@ $(document).ready(() => {
     
             if(fieldsSelectedByLearner.length==0) {
                 alert('Please select atleast one field');
-            } else {
-                $('#fitChoices').modal("hide");
             }
+
             let links = [];
             for(let i=0; i<fieldsSelectedByLearner.length; i++) {
                 links.push(dataTypeForValue[fieldsSelectedByLearner[i]]);
             }
             if (!navigator.onLine) {
                 alert('Seems you are offline.');
+            } else if(!GoogleAuth) {
+                alert('Slow internet please wait....');
+                console.log('sadfsa');
+                return;
             } else {
+                $('#fitChoices').modal("hide");
                 $('.heading_text').hide();
                 $('#buttons').hide();
                 $('#heading_fit_data').show();

@@ -1,11 +1,8 @@
 export class fitProvider {
 
   static fetchGoogleFitData(linksToFetch) {
-
-    if(!GoogleAuth) {
-      alert('Loading...Please wait');
-    }
-    else if(!GoogleAuth.isSignedIn.get()) {
+  
+    if(!GoogleAuth.isSignedIn.get()) {
       // signIn() prompts the user to sign in as well as asks for
       // API permissions as well (different from GoogleAuth.Q1())
       GoogleAuth.signIn();
