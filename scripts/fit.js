@@ -15,14 +15,7 @@ function initClient() {
   // SCOPE contans space separated links of APIs 
   // This is only for taking API permission
   var SCOPE = 'https://www.googleapis.com/auth/fitness.body.read\
-  https://www.googleapis.com/auth/fitness.activity.read\
-  https://www.googleapis.com/auth/fitness.location.read\
-  https://www.googleapis.com/auth/fitness.nutrition.read\
-  https://www.googleapis.com/auth/fitness.blood_pressure.read\
-  https://www.googleapis.com/auth/fitness.blood_glucose.read\
-  https://www.googleapis.com/auth/fitness.oxygen_saturation.read\
-  https://www.googleapis.com/auth/fitness.body_temperature.read\
-  https://www.googleapis.com/auth/fitness.reproductive_health.read';
+  https://www.googleapis.com/auth/fitness.activity.read';
 
   let apiKey, clientId;
   if(window.myL3.apiKeys.OAuthKey) {

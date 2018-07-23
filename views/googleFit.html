@@ -37,10 +37,6 @@
             width: 95%;
             padding: 10px 10px;
         }
-        .shadow {
-            background: white;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-        }
         .graphs {
             margin-top: 30px;
             display: flex;
@@ -48,7 +44,6 @@
             justify-content: center;
         }
         #graph {
-            margin: 5px 5px;
             width: 100%;
         }
         #myChart {
@@ -64,6 +59,10 @@
             cursor: pointer;
             text-decoration: underline;
         }
+        #playgroundHead {
+            background: #cccccc;
+            padding: 5px 0;
+        }
     </style>
 </head>
 <body>
@@ -72,7 +71,6 @@
     </div>
     <div class="_container">
         <center>
-            <h1>Playground - Chart View</h1>
             <div id="spinner" style="display: none;">
                 <center>
                     <!-- GIF created through https://loading.io , License: CC0/Free use for any purpose -->
@@ -119,11 +117,16 @@
                 </div>
                 
                 <div class="col-xs-12 col-md-8 graphs">
-                    <div id="graph" class="shadow">
-                        <canvas id="myChart"></canvas>
+                    <div id="playgroundHead">
+                        <h1>Playground - Chart View</h1>
                     </div>
-                    <div id="addField">
-                        <span id="addNewGraph"> + Add graph for new fitness field</span>
+                    <div class="graphContainer">
+                        <div id="graph" class="shadow">
+                            <canvas id="myChart"></canvas>
+                        </div>
+                        <div id="addField">
+                            <span id="addNewGraph"> + Add graph for new fitness field</span>
+                        </div>
                     </div>
                 </div>
             </div>

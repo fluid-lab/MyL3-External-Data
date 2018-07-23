@@ -38,6 +38,30 @@ export class appendIntoTable {
                 case "11":
                     values.push(weatherData.visibility + ' m');
                     break;
+                case "12":
+                    values.push(window.aqi + ' - ' + aqiStatus(window.aqi));  //' µg/m³'
+                    break;
+            }
+        }
+
+        function aqiStatus(aqi) {
+            if(aqi<51) {
+                return "Good";
+            }
+            else if(aqi<101) {
+                return "Moderate";
+            }
+            else if(aqi<151) {
+                return "Unhealthy for Sensitive Groups";
+            }
+            else if(aqi<201) {
+                return "Unhealthy";
+            }
+            else if(aqi<301) {
+                return "Very Unhealthy";
+            }
+            else {
+                return "Hazardous";
             }
         }
     
@@ -52,7 +76,8 @@ export class appendIntoTable {
             'Sunrise',
             'Sunset',
             "Weather Description",
-            'Visibility Range'
+            'Visibility Range',
+            'Air Quality Index(AQI)'
         ];
     
         // adding all the data received from weather JSON from API

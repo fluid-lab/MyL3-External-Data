@@ -13,12 +13,22 @@ For more info visit [MyL3 page of the Fluid wiki](https://wiki.fluidproject.org/
 Steps to run this project locally:
 
 * How to get API keys:
-    * [Openweathermap key](https://openweathermap.desk.com/customer/portal/articles/1626888-how-to-get-api-key)
+    * [Openweathermap API key](https://openweathermap.desk.com/customer/portal/articles/1626888-how-to-get-api-key)
+    * [Air Visual API key](https://airvisual.com/user/api)
     * [Google maps key](https://developers.google.com/maps/documentation/javascript/get-api-key)
+    * To get fitness API key and client ID, visit same google cloud project which you have set up for Google Map key.
+        * Visit APIs and Services > Library
+        * search for Fitness API, enable it
+        * Go to APIs and Services > Credentials > OAuth 2.0 client IDs
+          
+          You'll get client ID and API key (client secret) by clicking on web project which you have set up for MyL3
+    
 
 * Clone repo and open project folder in terminal
 
     ``` git clone https://github.com/jeevan-jp/MyL3-External-Data.git ```
+
+* If you have all API keys
 
 * A local webserver is needed (for error free viewing), http-server is a good option.
 Install http-server globally using the following command:
@@ -35,4 +45,4 @@ Install http-server globally using the following command:
 
     ``` http-server -p 3000 ```
 
-* Type ```http://localhost:3000``` in your browser address bar and hit enter.
+* Type ```http://localhost:3000``` in your browser address bar and press enter.

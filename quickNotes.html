@@ -10,46 +10,46 @@
       <link rel="stylesheet" href="styles.css" />
       <style>
           #buttons {
-              width: 100%;
-              max-width: 650px;
-              margin: 0px auto;
-              padding: 5px;
-              background-color: #f2f2f2;
-              border-top: 2px solid #000;
-              border-bottom: 2px solid #000;
+            width: 100%;
+            max-width: 650px;
+            margin: 0px auto;
+            padding: 5px;
+            background-color: #f2f2f2;
+            border-top: 2px solid #000;
+            border-bottom: 2px solid #000;
           }
           #buttons, .button_large {  
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             }
           .heading_text {
-              width: 100%;
-              max-width: 650px;
-              margin: 0 auto 30px auto;
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto 30px auto;
           }
-          .button_container {
-              display: flex;
-              flex-direction: row;
-              justify-content: center;
+          .button_container, #airQualityData {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
           }
           .button_large {
-              height: 120px;
-              width: 35%;
-              max-width: 120px;
-              text-align: center;
-              border: 2px solid #000;
-              cursor: pointer;
+            height: 120px;
+            width: 35%;
+            max-width: 120px;
+            text-align: center;
+            border: 2px solid #000;
+            cursor: pointer;
           }
           .button_large:hover {
-              border: 3px solid black;
+            border: 3px solid black;
           }
           #backBtn-fit, #buttons {
-              margin-bottom: 60px;
+            margin-bottom: 60px;
           }
           .text {
-              width: 65%;
-              margin-left: 20px;
+            width: 65%;
+            margin-left: 20px;
           }
       </style>
    </head>
@@ -104,7 +104,7 @@
          <div id="buttons">
             <div class="button_container">
                 <div class="button_large" id="importWeather" data-toggle="modal" data-target="#selectFields">
-                    <center><img src="/assets/owm-logo.png" alt="own logo" width="60px" height="60px" /></center>
+                    <center><img src="/assets/owm-logo.png" width="60px" height="60px" /></center>
                 </div> &nbsp;
                 <div class="text">
                     <strong>Weather</strong> <br>
@@ -113,7 +113,7 @@
             </div>
             <div class="button_container">
                 <div class="button_large" id="importLocation">
-                    <center><img src="/assets/gmaps-logo.png" alt="own logo" width="60px" height="60px" /></center>
+                    <center><img src="/assets/gmaps-logo.png" width="60px" height="60px" /></center>
                 </div> &nbsp;
                 <div class="text">
                     <strong>Location</strong> <br>
@@ -122,7 +122,7 @@
             </div>
             <div class="button_container">
                 <div class="button_large" id="importFit">
-                    <center><img src="/assets/fitLogo.png" alt="own logo" width="60px" height="60px" /></center>
+                    <center><img src="/assets/fitLogo.png" width="60px" height="60px" /></center>
                 </div> &nbsp;
                 <div class="text">
                     <strong>Fitness Data</strong> <br>
@@ -210,6 +210,11 @@
                            <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="visibility" value=11>Visibilty Range(meters)
                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="aqi" value=12>Pollution (AQI)
+                            </label>
                         </div>
                         <div class="modal-footer">
                            <button type="submit" class="btn btn-primary">Add Quick Note</button>
@@ -339,6 +344,7 @@
       <script type="module" src="modules/weather.js"></script>
       <script type="module" src="modules/appendIntoTable.js"></script>
       <script type="module" src="modules/weatherService.js"></script>
+      <script type="module" src="modules/aqiService.js"></script>
       <script type="module" src="modules/locationService.js"></script>
       <script type="module" src="scripts/fitHandleClick.js"></script>
       <script type="module" src="modules/GoogleFit/fetchFitData.js"></script>
