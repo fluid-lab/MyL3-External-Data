@@ -24,7 +24,7 @@ $(document).ready(() => {
             formObject.startMilliSeconds = getMilliSeconds(ent[1]);
           }
           else if(ent[0] === "to") {
-            formObject.endMilliSeconds = getMilliSeconds(ent[1]);
+            formObject.endMilliSeconds = getMilliSeconds(ent[1]) + 86400000;
           }
           else if(ent[0] === "fitness-field") {
             dataType = linksForValues[ent[1]];
@@ -41,10 +41,6 @@ $(document).ready(() => {
         } else {
           alert('All the field were not provided');
         }
-        
-        $('#addNewGraph').on('click', () => {
-          console.log('hi');
-        });
     });
 
     function getMilliSeconds(date) {

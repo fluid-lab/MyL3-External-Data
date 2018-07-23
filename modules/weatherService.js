@@ -1,7 +1,6 @@
 import { countryNames } from '../scripts/countryNames.js';
 import { weather } from './weather.js';
 import { appendIntoTable } from './appendIntoTable.js';
-import { AirQualityService } from './aqiService.js';
 
 var myL3 = myL3 || {};
 
@@ -14,7 +13,7 @@ export class weatherService {
         // Here "fields" array contain the integers which denotes values 
         // of various fields from dialog-box form for e.g. this array will be
         // [1,2,3,4,5] if user clicks on first five checkboxes.
-        AirQualityService.aqiValue();
+        console.log('hi');
         if($('#tabularData tbody').children().length > 1) {
             $('#weatherTable').hide();
             // Following steps remove elements currently present in the table.
@@ -68,6 +67,28 @@ export class weatherService {
                                 $('#city').html(`Country: ${countryNames[weatherData.sys.country]},
                                     City: ${weatherData.name} <br><br>`);
                             }
+
+                            // Code to bring AQI
+                            let airVisualKey;
+                            if(window.myL3.apiKeys.airVisualKey) {
+                                airVisualKey = window.myL3.apiKeys.airVisualKey;
+                            } else {
+                                airVisualKey = prompt('Please enter Air Visual API key');
+                            }
+                            const lat = position.coords.latitude;
+                            const lon = position.coords.longitude;
+                            $.getJSON(`https://api.airvisual.com/v2/nearest_city?lat=${lat}&lon=${lon}&key=${airVisualKey}`, (aqiData) => {
+                                console.log(aqiData);
+                                const aqi = aqiData.data.current.pollution.aqius;
+                                for(let i=fields.length-1; i>=0; i--) {
+                                    if(fields[i] === "12") {
+                                        $('#tabularData > tbody > tr:last').after("<tr><td>Air Quality Index(AQI)</td><td>" + 
+                                        aqi + ' - ' + weather.aqiStatus(aqi) + "</td></tr>");
+                                        break;
+                                    }
+                                }
+                            });
+                            // End AQI
                         }
                     })
                     .catch((err) => {                      

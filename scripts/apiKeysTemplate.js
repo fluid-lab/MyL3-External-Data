@@ -3,5 +3,6 @@ myL3.apiKeys = {
     openweathermapKey: undefined,
     googleMapKey: undefined,
     OAuthKey: undefined,
-    clientId: undefined
+    clientId: undefined,
+    airVisualKey: undefined
 };

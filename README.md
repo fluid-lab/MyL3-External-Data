@@ -22,7 +22,7 @@ Steps to run this project locally:
         * Go to APIs and Services > Credentials > OAuth 2.0 client IDs
           
           You'll get client ID and API key (client secret) by clicking on web project which you have set up for MyL3
-    
+
 
 * Clone repo and open project folder in terminal
 
