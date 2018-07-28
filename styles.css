@@ -29,7 +29,7 @@ body {
 .container {
     margin-top: 80px;
     padding-bottom: 60px;
-    height: 75vh;
+    height: calc(100vh - 110px);
 }
 
 .center_column {
@@ -90,9 +90,17 @@ body {
     display: none;
 }
 
+#tabularData {
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
 #importWeather, #importFit, #fitnessHistory, #editSelectionBtn, 
 #importLocation, #editChoices-fit, #backBtn-fit {
     margin-bottom: 10px;
+}
+
+#weatherTable {
+    margin-bottom: 80px;
 }
 
 #s_all, #s_all_fit {
@@ -107,8 +115,8 @@ table {
     width: 100%;
     min-width: 200px;
     max-width: 300px;
+    border-bottom-left-radius: 10px;
     border-collapse: collapse;
-    margin-bottom: 40px;
 }
 
 tr:nth-child(odd) {
@@ -133,7 +141,7 @@ tr {
 }
 
 #tr_1 {
-    background: #c2bbff;
+    background: #ffd045;
     color: white;
     height: 40px;
     font-size: 20px;

@@ -1,5 +1,6 @@
 import { weatherService } from './modules/weatherService.js';
 import { locationService } from './modules/locationService.js';
+import { AQI } from './modules/aqiService.js';
 
 $(document).ready(() => {
     var myL3 = window.myL3 || {};
@@ -72,5 +73,13 @@ $(document).ready(() => {
 
     $('#fitnessHistory').on('click', () => {
         window.location.href = "/views/googleFit.html";
+    });
+
+    $('#aqiData').on('click', () => {
+        $('#buttons').hide();
+        $('.heading_text').hide();
+        $('#heading_aqi_data').show();
+        $('#spinner').show();
+        AQI.getAQI();
     });
 });

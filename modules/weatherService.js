@@ -24,27 +24,11 @@ export class weatherService {
             $('#spinner').hide();
             return;
         }
-    
-        if(navigator.geolocation) {
-    
-            const options = {
-                enableHighAccuracy: true,
-                timeout: Infinity,
-                maximumAge: 0
-            };
-    
-            const error = (err) => {
-                console.log(err);
-                $('#err').html(`Cannot retrieve location info, \
-                <br>Reason: <strong>${err.message}</strong>`);
-                if(!navigator.onLine) {
-                    alert('Internet connection not avaiable');
-                }
-            }
-    
-            const getWeatherData = (position) => {
-                myL3.oneTimePosition = position;
 
+        this.getLocation()
+            .then((position) => {
+                myL3.oneTimePosition = position;
+        
                 // fetchWeather function returns a PROMISE
                 weather.fetchWeather(position)
                     .then((weatherData) => {
@@ -52,7 +36,7 @@ export class weatherService {
                             console.log('Weather JSON', weatherData);
                             myL3.oneTimeWeatherData = weatherData;
                             $('#spinner').hide();
-
+        
                             if(fields.length) {     // this means we need weather data not location data
                                 $('#map').hide();
                                 appendIntoTable.addDataIntoTable(weatherData, fields);
@@ -66,27 +50,27 @@ export class weatherService {
                                 $('#city').html(`Country: ${countryNames[weatherData.sys.country]},
                                     City: ${weatherData.name} <br><br>`);
                             }
-
+        
                             // Code to bring AQI
-                            let airVisualKey;
-                            if(window.myL3.apiKeys.airVisualKey) {
-                                airVisualKey = window.myL3.apiKeys.airVisualKey;
-                            } else {
-                                airVisualKey = prompt('Please enter Air Visual API key');
-                            }
-                            const lat = position.coords.latitude;
-                            const lon = position.coords.longitude;
-                            $.getJSON(`https://api.airvisual.com/v2/nearest_city?lat=${lat}&lon=${lon}&key=${airVisualKey}`, (aqiData) => {
-                                console.log(aqiData);
-                                const aqi = aqiData.data.current.pollution.aqius;
-                                for(let i=fields.length-1; i>=0; i--) {
-                                    if(fields[i] === "12") {
-                                        $('#tabularData > tbody > tr:last').after("<tr><td>Air Quality Index(AQI)</td><td>" + 
-                                        aqi + ' - ' + weather.aqiStatus(aqi) + "</td></tr>");
-                                        break;
-                                    }
-                                }
-                            });
+                            // let airVisualKey;
+                            // if(window.myL3.apiKeys.airVisualKey) {
+                            //     airVisualKey = window.myL3.apiKeys.airVisualKey;
+                            // } else {
+                            //     airVisualKey = prompt('Please enter Air Visual API key');
+                            // }
+                            // const lat = position.coords.latitude;
+                            // const lon = position.coords.longitude;
+                            // $.getJSON(`https://api.airvisual.com/v2/nearest_city?lat=${lat}&lon=${lon}&key=${airVisualKey}`, (aqiData) => {
+                            //     console.log(aqiData);
+                            //     const aqi = aqiData.data.current.pollution.aqius;
+                            //     for(let i=fields.length-1; i>=0; i--) {
+                            //         if(fields[i] === "12") {
+                            //             $('#tabularData > tbody > tr:last').after("<tr><td>Air Quality Index(AQI)</td><td>" + 
+                            //             aqi + ' - ' + weather.aqiStatus(aqi) + "</td></tr>");
+                            //             break;
+                            //         }
+                            //     }
+                            // });
                             // End AQI
                         }
                     })
@@ -96,12 +80,32 @@ export class weatherService {
                             ': ' + JSON.parse(err.responseText).message);
                         console.log(JSON.parse(err.responseText));
                     });
-            }
+            }) 
+    }
 
-            navigator.geolocation.getCurrentPosition(getWeatherData, error, options);
-        }
-        else {
-            console.log('User\'s browser doesn\'t support geolocation');
+    static getLocation() {
+        if(navigator.geolocation) {
+    
+            const options = {
+                enableHighAccuracy: true,
+                timeout: Infinity,
+                maximumAge: 0
+            };
+            
+            return new Promise((resolve, reject) => {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    console.log(position);
+                    resolve(position);
+                }, (err) => {
+                    console.log(err);
+                    $('#err').html(`Cannot retrieve location info, \
+                    <br>Reason: <strong>${err.message}</strong>`);
+                    if(!navigator.onLine) {
+                        alert('Internet connection not avaiable');
+                    }
+                    reject(err);
+                }, options);
+            });
         }
     }
 }

@@ -19,7 +19,7 @@
             border-top: 2px solid #000;
             border-bottom: 2px solid #000;
           }
-          #buttons, .button_large {  
+          #buttons, .button_large, .flex-column {  
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -29,7 +29,7 @@
             max-width: 650px;
             margin: 0 auto 30px auto;
           }
-          .button_container, #airQualityData {
+          .button_container, #airQualityData, .flex-row {
             display: flex;
             flex-direction: row;
             justify-content: center;
@@ -53,24 +53,44 @@
             margin-left: 20px;
           }
           #mySidenav {
-                position: absolute;
-                left: -120px;
-                transition: 0.3s;
-                padding: 5px;
-                width: 150px;
-                text-decoration: none;
-                font-size: 15px;
-                font-weight: bold;
-                border-radius: 0 5px 5px 0;
-                background: #ffc107;
-                box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-                top: 80px;
-                cursor: pointer;
-            }
+            position: absolute;
+            left: -90px;
+            transition: 0.3s;
+            padding: 5px;
+            width: 120px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 0 5px 5px 0;
+            background: #ffc107;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+            top: 80px;
+            cursor: pointer;
+            position: fixed;
+          }
 
-            #mySidenav:hover {
-                left: 0; /* On mouse-over, make the elements appear as they should */
-            }
+          #mySidenav:hover {
+            left: 0; /* On mouse-over, make the elements appear as they should */
+          }
+
+          #airQualityContainer {
+            width: 300px;
+            height: auto;
+            padding: 10px;
+            background: #ffffff;
+            text-align: justify;
+            margin-bottom: 70px;
+          }
+
+          .container-aqi {
+              min-height: calc(100vh - 140px);
+              display: none;
+          }
+          
+          #aqiVal {
+            font-size: 100px;
+            font-weight: bold;
+         }
       </style>
    </head>
 
@@ -84,6 +104,7 @@
             <h1 id="heading_weather_data" style="display: none;">Quick Note - Open Weather Map</h1>
             <h1 id="heading_location_data" style="display: none;">Quick Note - Location</h1>
             <h1 id="heading_fit_data" style="display: none;">Quick Note - Google Fit</h1>
+            <h1 id="heading_aqi_data" style="display: none;">Quick Note - Air Quality Index</h1>
         </div>
          <center>
             <div id="map" class="col-xs-12"></div>
@@ -100,7 +121,7 @@
 
          <div id="weatherTable">
             <center>
-               <table id="tabularData">
+               <table id="tabularData" class="shadow">
                   <tbody>
                      <tr id="tr_1">
                         <th>Parameter</th>
@@ -111,10 +132,25 @@
             </center>
          </div>
 
-         <div id="editSelectionBtn" style="display: none;">
-            <center>
-               <button id="editChoices" class="btn btn-info">Edit choices</button>
-            </center>
+         <div class="container-aqi flex-column">
+             <div class="flex-row">
+                <div id="airQualityContainer" class="shadow flex-row">
+                    <div class="flex-column">
+                        <div style="
+                            text-align: center;
+                            font-size: 20px;
+                            font-weight: bold;">
+                            Air Quality in <span id="city-aqi"></span> is 
+                                <span id="status" style="display: inline;"></span>
+                            <div id="aqiVal"></div>
+                        </div>
+                        <strong>Health Implications:</strong>
+                        <div id="health-implications"></div> <br/>
+                        <strong>Cautionary Statement (for PM2.5):</strong>
+                        <div id="caution-pm25"></div>
+                    </div>
+                </div>
+             </div>
          </div>
 
          <div class="heading_text">
@@ -151,6 +187,15 @@
                 <div class="text">
                     <strong>Fitness Data</strong> <br>
                     Import your Google Fit data to your MyL3
+                </div>
+            </div>
+            <div class="button_container">
+                <div class="button_large" id="aqiData">
+                    <center><img src="/assets/airVisual.png" width="60px" height="60px" /></center>
+                </div> &nbsp;
+                <div class="text">
+                    <strong>AQI - Air Visual</strong> <br>
+                    Import Air Quality Index from Air Visual to your MyL3
                 </div>
             </div>
          </div>
@@ -229,11 +274,11 @@
                               <input type="checkbox" class="form-check-input" name="visibility" value=11>Visibilty Range(meters)
                            </label>
                         </div>
-                        <div class="form-check">
+                        <!-- <div class="form-check">
                             <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input" name="aqi" value=12>Pollution (AQI)
                             </label>
-                        </div>
+                        </div> -->
                         <div class="modal-footer">
                            <button type="submit" class="btn btn-primary">Add Quick Note</button>
                         </div>
@@ -353,6 +398,7 @@
       <script type="module" src="modules/locationService.js"></script>
       <script type="module" src="scripts/fitHandleClick.js"></script>
       <script type="module" src="modules/GoogleFit/fetchFitData.js"></script>
+      <script type="module" src="modules/aqiService.js"></script>
       <script type="module" src="app.js"></script>
       <script async defer src="https://apis.google.com/js/api.js" 
             onload="this.onload=function(){}; handleClientLoad()" 

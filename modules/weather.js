@@ -26,26 +26,5 @@ export class weather {
                 reject(err);
             });
         });
-    } 
-
-    static aqiStatus(aqi) {
-        if(aqi<51) {
-            return "Good";
-        }
-        else if(aqi<101) {
-            return "Moderate";
-        }
-        else if(aqi<151) {
-            return "Unhealthy for Sensitive Groups";
-        }
-        else if(aqi<201) {
-            return "Unhealthy";
-        }
-        else if(aqi<301) {
-            return "Very Unhealthy";
-        }
-        else {
-            return "Hazardous";
-        }
     }
 }
