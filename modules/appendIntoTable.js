@@ -64,7 +64,6 @@ export class appendIntoTable {
             $('#tabularData > tbody > tr:last').after("<tr><td>" + weatherTableLabels[parseInt(fields[i])-1] + 
             "</td><td>" + values[i] + "</td></tr>");
         }
-        $('#weatherTable').show(1000);
         // source code to retrieve weather icon
         // const src = `https://openweathermap.org/img/w/${weatherData.weather[0].icon}.png`;
         

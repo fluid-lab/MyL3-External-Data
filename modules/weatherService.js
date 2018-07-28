@@ -1,4 +1,3 @@
-import { countryNames } from '../scripts/countryNames.js';
 import { weather } from './weather.js';
 import { appendIntoTable } from './appendIntoTable.js';
 
@@ -8,7 +7,7 @@ export class weatherService {
 
     constructor() {};
 
-    static getData (fields = []) {  // static functions can be called without creating instance of class
+    static getData (fields) {  // static functions can be called without creating instance of class
 
         // Here "fields" array contain the integers which denotes values 
         // of various fields from dialog-box form for e.g. this array will be
@@ -21,57 +20,22 @@ export class weatherService {
                 $('#tabularData tbody').children()[1].remove();
             }
             appendIntoTable.addDataIntoTable(myL3.oneTimeWeatherData, fields);
+            $('#weatherTable').show(1000);
             $('#spinner').hide();
             return;
         }
 
         this.getLocation()
             .then((position) => {
-                myL3.oneTimePosition = position;
-        
                 // fetchWeather function returns a PROMISE
                 weather.fetchWeather(position)
                     .then((weatherData) => {
                         if(weatherData !== 'error') {
                             console.log('Weather JSON', weatherData);
                             myL3.oneTimeWeatherData = weatherData;
+                            appendIntoTable.addDataIntoTable(weatherData, fields);
                             $('#spinner').hide();
-        
-                            if(fields.length) {     // this means we need weather data not location data
-                                $('#map').hide();
-                                appendIntoTable.addDataIntoTable(weatherData, fields);
-                                $('#tabularData').show(1000);
-                            } else {    // Display country, city and map with marker
-                                if(myL3.mapAvailable) {
-                                    $('#map').show();
-                                } else {
-                                    addGoogleMap(position);
-                                }
-                                $('#city').html(`Country: ${countryNames[weatherData.sys.country]},
-                                    City: ${weatherData.name} <br><br>`);
-                            }
-        
-                            // Code to bring AQI
-                            // let airVisualKey;
-                            // if(window.myL3.apiKeys.airVisualKey) {
-                            //     airVisualKey = window.myL3.apiKeys.airVisualKey;
-                            // } else {
-                            //     airVisualKey = prompt('Please enter Air Visual API key');
-                            // }
-                            // const lat = position.coords.latitude;
-                            // const lon = position.coords.longitude;
-                            // $.getJSON(`https://api.airvisual.com/v2/nearest_city?lat=${lat}&lon=${lon}&key=${airVisualKey}`, (aqiData) => {
-                            //     console.log(aqiData);
-                            //     const aqi = aqiData.data.current.pollution.aqius;
-                            //     for(let i=fields.length-1; i>=0; i--) {
-                            //         if(fields[i] === "12") {
-                            //             $('#tabularData > tbody > tr:last').after("<tr><td>Air Quality Index(AQI)</td><td>" + 
-                            //             aqi + ' - ' + weather.aqiStatus(aqi) + "</td></tr>");
-                            //             break;
-                            //         }
-                            //     }
-                            // });
-                            // End AQI
+                            $('#weatherTable').show(1000);
                         }
                     })
                     .catch((err) => {                      
@@ -80,7 +44,7 @@ export class weatherService {
                             ': ' + JSON.parse(err.responseText).message);
                         console.log(JSON.parse(err.responseText));
                     });
-            }) 
+            })
     }
 
     static getLocation() {

@@ -23,7 +23,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            }
+          }
           .heading_text {
             width: 100%;
             max-width: 650px;
@@ -76,7 +76,7 @@
           #airQualityContainer {
             width: 300px;
             height: auto;
-            padding: 10px;
+            padding: 15px;
             background: #ffffff;
             text-align: justify;
             margin-bottom: 70px;
@@ -90,6 +90,21 @@
           #aqiVal {
             font-size: 100px;
             font-weight: bold;
+         }
+
+         .locationContainer {
+             font-size: 16px;
+             font-weight: bold;
+             max-width: 350px;
+             padding: 10px;
+             margin-bottom: 80px;
+             display: none;
+         }
+
+         #address {
+            width: 300px;
+            margin-bottom: 20px;
+            text-align: justify;
          }
       </style>
    </head>
@@ -107,8 +122,10 @@
             <h1 id="heading_aqi_data" style="display: none;">Quick Note - Air Quality Index</h1>
         </div>
          <center>
-            <div id="map" class="col-xs-12"></div>
-            <div id="city"></div>
+            <div class="locationContainer shadow">
+                <div id="address"></div>
+                <div id="map" class="col-xs-12"></div>
+            </div>
          </center>
          <div id="spinner">
             <center>
@@ -389,13 +406,11 @@
       <script src="lib/jquery-3.3.1.min.js"></script>
       <script src="lib/bootstrap.min.js"></script>
       <script src="scripts/apiKeys.js"></script>
-      <script src="services/maps.js"></script>
       <script src="scripts/fit.js"></script>
-      <script type="module" src="scripts/countryNames.js"></script>
       <script type="module" src="modules/weather.js"></script>
       <script type="module" src="modules/appendIntoTable.js"></script>
       <script type="module" src="modules/weatherService.js"></script>
-      <script type="module" src="modules/locationService.js"></script>
+      <script type="module" src="modules/mapService.js"></script>
       <script type="module" src="scripts/fitHandleClick.js"></script>
       <script type="module" src="modules/GoogleFit/fetchFitData.js"></script>
       <script type="module" src="modules/aqiService.js"></script>

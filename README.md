@@ -15,7 +15,11 @@ Steps to run this project locally:
 * How to get API keys:
     * [Openweathermap API key](https://openweathermap.desk.com/customer/portal/articles/1626888-how-to-get-api-key)
     * [Air Visual API key](https://airvisual.com/user/api)
-    * [Google maps key](https://developers.google.com/maps/documentation/javascript/get-api-key)
+    * Enable "Maps JavaScript API" by creating a new project on Google Cloud Platform. More about how to get [Google maps key](https://developers.google.com/maps/documentation/javascript/get-api-key)
+
+    Don't restrict Goolge Map API key. Under Key restrictions > Application restrictions select "None". Restricting this key causes error sometimes.
+    * We have to use "Geocoding API" to provide location information. Enable Geocoding API for Google map as well.
+    Remember the API key will be same for both "Maps JavaScript API" and "Geocoding API".
     * To get fitness API key and client ID, visit same google cloud project which you have set up for Google Map key.
         * Visit APIs and Services > Library
         * search for Fitness API, enable it
@@ -25,14 +29,22 @@ Steps to run this project locally:
         * Goto credentials, now select web client for this project.
           Under Restriction > Authorized JavaScript origins
         
-        * Add links to localhost urls where you'll run you project locally(This allows that url to access your web    client which you've set up for OAuth) e.g. http://localhost:3000 and https://developers.google.com and      so on as many as you want to give permission to.
+        * Add links to localhost urls where you'll run you project locally (Only specified URLs will be able to access Fitness API through you API credentials) e.g. http://localhost:3000 and https://developers.google.com . You can add more than one websites urls.
+
+        * More about fitness API is explained in [Google Fit API documentation](https://developers.google.com/fit/rest/)
 
 
 * Clone repo and open project folder in terminal
 
     ``` git clone https://github.com/jeevan-jp/MyL3-External-Data.git ```
 
-* If you have all API keys
+* Once you have all API keys, client id ready, you have to create a new file name apiKeys.js in modules folder. Copy contents from apiKeysTemplate.js into newly created file. add all the keys corresponding to the names. Following variables are there-
+
+    * openweathermapKey: Key from Open weather map API.
+    * googleMapKey: Goolgle Map API key form Google Cloud Platfrom
+    * OAuthKey: OAuth 2.0 web client secret.
+    * clientId: OAuth 2.0 web client ID.
+    * airVisualKey: Key for Air Visual API.
 
 * A local webserver is needed (for error free viewing), http-server is a good option.
 Install http-server globally using the following command:
@@ -49,7 +61,7 @@ Install http-server globally using the following command:
 
     ``` http-server -p 3000 ```
 
-* Type ```http://localhost:3000``` in your browser address bar and press enter.
+* Visit ```http://localhost:3000``` in your browser.
 
 ### Important libraries used to bring google fit data:
 
@@ -74,11 +86,9 @@ Using OAuth playground is one of easiest way to visualise the response and make 
 Access of OAuth 2.0 should be given to https://developers.google.com as I explained in fitness key set up part.
 
 ### Few Global Variables explained
-Upto this point our global Variable contains 3 API keys 1 client_id(OAuth), two variables name myL3.oneTimeWeatherData and myL3.isMapAvailable variables.
+Upto this point our global Variable "myL3" contains 3 API keys 1 client_id(OAuth), two variable's names myL3.oneTimeWeatherData and myL3.isMapAvailable variables.
 
 myL3.oneTimeWeatherData is used to get store the weather data retrieved so that it can be used in other parts without making the API call again.
-
-myL3.isMapAvailable variable is a boolean and set to false by default. When Google Map becomes available we set it to true. This ensures to use available google map and prevents from repeat google map API call.
 
 ### Disconnect users:
 To test OAuth prompt which is shown to take api permission more than once: Don’t clear browser history and data. Instead you should use GoogleAuth.signOut() or GoogleAuth.disconnect() in browser console to sign out the user from MyL3. Because GoogleAuth is a global variable.
@@ -95,7 +105,7 @@ Airvisual is one of the trusted APIs which provide us free API (with restriction
 
 REST API endpoint used:
 
-    api.airvisual.com/v2/nearest_city?lat={LATITUDE}&lon={LONGITUDE}&key={YOUR_API_KEY}
+    https://api.airvisual.com/v2/nearest_city?lat={LATITUDE}&lon={LONGITUDE}&key={YOUR_API_KEY}
 
 
 ### Youtube

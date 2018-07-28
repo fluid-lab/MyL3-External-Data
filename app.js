@@ -1,19 +1,15 @@
 import { weatherService } from './modules/weatherService.js';
-import { locationService } from './modules/locationService.js';
+import { GoogleMap } from './modules/mapService.js'
 import { AQI } from './modules/aqiService.js';
 
 $(document).ready(() => {
     var myL3 = window.myL3 || {};
-    // weather data coming from openweathermap will be stored by getData function into it.
     myL3.oneTimeWeatherData;
+    // weather data coming from openweathermap will be stored by getData function into it.
     // oneTimeWeatherData is useful in avoiding repetitive weather API calls
     // the value of this var is set when we make owm(openweathermap) API call
     // this is happening in weatherService.js file
-    // we have placed in aap.js because 
-    myL3.mapAvailable = false;
-    // mapAvailable is a boolean that will be set true when google map is fetched once
-    // Above two variables are preventing repetitive API calls
-    // And will be reset again when user leaves the site or reload.
+    // we have placed in aap.js because
 
     $('#selectAll').on('click', () => {
         $('#selectAll')[0].checked ? $('#s_all').html('DESELECT ALL') : $('#s_all').html('SELECT ALL');
@@ -27,8 +23,7 @@ $(document).ready(() => {
         e.preventDefault();     // prevent form submission
         if(!navigator.onLine) {
             alert('Seems you are offline.');
-        } else {        
-            $('#city').hide();
+        } else {
             $('.heading_text').hide();
             $('#buttons').hide();
             $('#heading_weather_data').show();
@@ -60,7 +55,7 @@ $(document).ready(() => {
     $('#mySidenav').on('click', () => {
         if($('#tabularData > tbody')[0].children.length>1) {
             $('#map').hide();
-            $('#city').hide();
+            $('#address').hide();
             $('#selectFields').modal('show');
         } else {
             $('#fitChoices').modal('show');
@@ -68,7 +63,11 @@ $(document).ready(() => {
     });
 
     $('#importLocation').on('click', () => {
-        locationService.importLocation();
+        $('.heading_text').hide();
+        $('#buttons').hide();
+        $('#heading_location_data').show();
+        $('#spinner').show();
+        GoogleMap.showMapAndAddress();
     });
 
     $('#fitnessHistory').on('click', () => {
