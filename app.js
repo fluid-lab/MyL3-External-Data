@@ -31,7 +31,6 @@ $(document).ready(() => {
             $('.heading_text').hide();
             $('#buttons').hide();
             $('#heading_weather_data').show();
-            $('#goBack').show();
             if(!myL3.oneTimeWeatherData) {
                 $('#spinner').show();
             }
@@ -51,16 +50,20 @@ $(document).ready(() => {
             } else {
                 $('#selectFields').modal("hide");
                 $('#importWeather').hide();
-                $('#editSelectionBtn').show();
+                $('#mySidenav').show();
                 weatherService.getData(fieldsSelectedByLearner);
             }
         }
     });
 
-    $('#editChoices').on('click', () => {
-        $('#map').hide();
-        $('#city').hide();
-        $('#selectFields').modal('show');
+    $('#mySidenav').on('click', () => {
+        if($('#tabularData > tbody')[0].children.length>1) {
+            $('#map').hide();
+            $('#city').hide();
+            $('#selectFields').modal('show');
+        } else {
+            $('#fitChoices').modal('show');
+        }
     });
 
     $('#importLocation').on('click', () => {

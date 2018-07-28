@@ -7,6 +7,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
       <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <link rel="stylesheet" href="styles.css" />
       <style>
           #buttons {
@@ -44,13 +45,32 @@
           .button_large:hover {
             border: 3px solid black;
           }
-          #backBtn-fit, #buttons {
+          #backBtn-fit, #buttons, .fitnessDataContainer {
             margin-bottom: 60px;
           }
           .text {
             width: 65%;
             margin-left: 20px;
           }
+          #mySidenav {
+                position: absolute;
+                left: -120px;
+                transition: 0.3s;
+                padding: 5px;
+                width: 150px;
+                text-decoration: none;
+                font-size: 15px;
+                font-weight: bold;
+                border-radius: 0 5px 5px 0;
+                background: #ffc107;
+                box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+                top: 80px;
+                cursor: pointer;
+            }
+
+            #mySidenav:hover {
+                left: 0; /* On mouse-over, make the elements appear as they should */
+            }
       </style>
    </head>
 
@@ -101,6 +121,10 @@
             Choose any of the following sources to add an auto note
             and start importing their data to your MyL3:
         </div>
+        <div id="mySidenav" class="shadow" style="display: none;">
+            Edit Choices
+            <i style="display: inline; float: right;" class="fa fa-edit"></i>
+        </div>
          <div id="buttons">
             <div class="button_container">
                 <div class="button_large" id="importWeather" data-toggle="modal" data-target="#selectFields">
@@ -129,12 +153,6 @@
                     Import your Google Fit data to your MyL3
                 </div>
             </div>
-         </div>
-
-         <div id="goBack" style="display: none; padding-bottom: 60px;">
-             <center>
-                <button id="backBtn" onclick="window.location.href='/quickNotes.html'" class="btn btn-info">Back</button>
-             </center>
          </div>
 
          <div class="modal fade" id="selectFields">
@@ -250,18 +268,6 @@
                 </div>
             </div>
          </center>
-
-         <div id="editSelectionBtn-fit" style="display: none;">
-            <center>
-               <button id="editChoices-fit" class="btn btn-info">Edit choices</button>
-            </center>
-         </div>
-
-         <div id="goBack-fit" style="display: none;">
-            <center>
-               <button id="backBtn-fit" class="btn btn-info" onclick="window.location.reload()">Back</button>
-            </center>
-        </div>
 
          <div class="modal fade" id="fitChoices">
             <div class="modal-dialog modal-sm modal-dialog-centered">

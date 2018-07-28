@@ -39,22 +39,21 @@
         }
         .graphs {
             margin-top: 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            padding-left: 20px;
         }
-        #graph {
+        .graph {
             width: 100%;
+            margin: 5 0;
         }
-        #myChart {
-            height: 325px;
-            max-height: 350px;
+        .myChart {
+            height: 250px;
+            max-height: 300px;
         }
         #playgroundHead {
             background: #cccccc;
             padding: 5px 0;
         }
-    </style>
+    </style>d
 </head>
 <body>
     <div class="header">
@@ -82,24 +81,12 @@
                             <div class="input_date full-width">
                                 <input type="date" class="full-width" name="to">
                             </div>
-                            <label>SELECT FITNESS FIELD*</label>
-                            <select name="fitness-field" class="full-width" id="fitness-field">
-                                <option value="0">Select Field--------</option>
-                                <option value="1">Height</option>
-                                <option value="2">Weight</option>
-                                <option value="3">Distance</option>
-                                <option value="4">Calories Spent</option>
-                                <option value="5">Steps Count</option>
-                                <option value="6">Pulse rate</option>
-                                <option value="7">Cycling Cadence</option>
-                                <option value="8">Cycle Wheel Speed</option>
-                            </select>
-                            <label for="bar_g">
-                                <input type="radio" name="graphType" id="bar_g" value="bar" checked>&nbsp;Bar Graph
+                            <label for="line_g">
+                                <input type="radio" name="graphType" id="line_g" value="line" checked>&nbsp;Line Graph
                             </label>
                             &nbsp;
-                            <label for="line_g">
-                                <input type="radio" name="graphType" id="line_g" value="line">&nbsp;Line Graph
+                            <label for="bar_g">
+                                <input type="radio" name="graphType" id="bar_g" value="bar">&nbsp;Bar Graph
                             </label>
                             &nbsp;
                             <button type="submit" class="btn btn-primary mb-2">Submit</button>
@@ -112,9 +99,9 @@
                         <h1>Playground - Chart View</h1>
                     </div>
                     <div class="graphContainer">
-                        <div id="graph" class="shadow">
-                            <canvas id="myChart"></canvas>
-                        </div>
+                        <!-- <div class="graph shadow">
+                            <canvas class="myChart"></canvas>
+                        </div> -->
                     </div>
                 </div>
             </div>

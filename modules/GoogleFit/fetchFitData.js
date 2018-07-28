@@ -73,8 +73,7 @@ export class fitProvider {
         statusCode: {
           500: () => {
             if(counter == linksToFetch.length - 1) {
-              $('#goBack-fit').show();
-              $('#editSelectionBtn-fit').show();
+              $('#mySidenav').show();
             }
             if(counter<linksToFetch.length-1) {
               bringData(token, ++counter);
@@ -83,8 +82,7 @@ export class fitProvider {
           },
           400: () => {
             if(counter == linksToFetch.length - 1) {
-              $('#goBack-fit').show();
-              $('#editSelectionBtn-fit').show();
+              $('#mySidenav').show();
             }
             if(counter<linksToFetch.length-1) {
               bringData(token, ++counter);
@@ -116,8 +114,7 @@ export class fitProvider {
             bringData(token, ++counter);  // Recursion (using "counter")
           }
           if(counter == linksToFetch.length - 1) {
-            $('#goBack-fit').show();
-            $('#editSelectionBtn-fit').show();
+            $('#mySidenav').show();
           }
         });
     }

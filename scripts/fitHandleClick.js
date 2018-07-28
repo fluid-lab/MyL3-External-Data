@@ -1,24 +1,23 @@
 import { fitProvider } from '../modules/GoogleFit/fetchFitData.js';
 
 $(document).ready(() => {
-    $('#importFit').on('click', (e) => {
+    $('#importFit').on('click', () => {
         $('#fitChoices').modal('show');
-
-        const dataTypeForValue = {
-            1: "com.google.height",
-            2: "com.google.weight",
-            3: "com.google.distance.delta",
-            4: "com.google.calories.expended",
-            5: "com.google.step_count.delta",
-            6: "com.google.heart_rate.bpm",
-            7: "com.google.cycling.pedaling.cadence",
-            8: "com.google.cycling.wheel_revolution.rpm"
-        }
 
         $('#fitnessFieldsForm').on('submit', (e) => {
             $('.dataCards > div').hide();
             let fieldsSelectedByLearner = [];
-            e.preventDefault();     // prevent form submission
+            const fieldsMatchingValues = {
+                1: "com.google.height",
+                2: "com.google.weight",
+                3: "com.google.distance.delta",
+                4: "com.google.calories.expended",
+                5: "com.google.step_count.delta",
+                6: "com.google.heart_rate.bpm",
+                7: "com.google.cycling.pedaling.cadence",
+                8: "com.google.cycling.wheel_revolution.rpm"
+            }
+            e.preventDefault();     // prevent default form submission
             const form = document.getElementById('fitnessFieldsForm');
             let formData = new FormData(form);
             
@@ -32,8 +31,9 @@ $(document).ready(() => {
 
             let links = [];
             for(let i=0; i<fieldsSelectedByLearner.length; i++) {
-                links.push(dataTypeForValue[fieldsSelectedByLearner[i]]);
+                links.push(fieldsMatchingValues[fieldsSelectedByLearner[i]]);
             }
+            localStorage.setItem('selectedFields', links);
             if (!navigator.onLine) {
                 alert('Seems you are offline.');
             } else if(!GoogleAuth) {

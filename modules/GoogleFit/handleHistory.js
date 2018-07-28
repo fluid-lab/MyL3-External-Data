@@ -1,34 +1,59 @@
-$(document).ready(() => {
-    const maxDate = new Date().toISOString().split('T')[0];
-    $('input[name="to"]').attr('max', maxDate);
+window.onload = () => {
+
+    let counter = 0;
+    let token;
     let dataToToggleGraph = {};
     let formObject = {};
+    const HTMLText = {
+      "com.google.height" : "height(cm)",
+      "com.google.weight": "weight(Kg)",
+      "com.google.distance.delta": "distance(m)",
+      "com.google.calories.expended": "calories spent",
+      "com.google.step_count.delta": "steps count",
+      "com.google.heart_rate.bpm": "pulse rate(bpm)",
+      "com.google.cycling.pedaling.cadence": "pedaling speed",
+      "com.google.cycling.wheel_revolution.rpm": "wheel speed(rpm)"
+    };
+    const maxDate = new Date().toISOString().split('T')[0];
+    $('input[name="to"]').attr('max', maxDate); // setting maxdate property in end date (HTML file)
+
+    if(!localStorage.selectedFields) {
+      localStorage.selectedFields = Object.keys(HTMLText);
+    }
+    const dataTypes = window.localStorage.getItem('selectedFields').split(',');
+
+    if(localStorage.formObject) {
+      formObject = JSON.parse(localStorage.formObject);
+    } else {      
+      const dateAndTimeNow = new Date();
+      const hrs = dateAndTimeNow.getHours();
+      const mins = dateAndTimeNow.getMinutes();
+      const seconds = dateAndTimeNow.getSeconds();
+      formObject.endMilliSeconds = dateAndTimeNow.getTime();
+      formObject.startMilliSeconds = formObject.endMilliSeconds -
+        ((hrs*60 + mins)*60 + seconds) * 1000 - (86400000 * 6);
+    }
+    
+    waitUntilGoogleAuthReady();
+
+    // setTimeOut until GoogleAuth is ready
+    function waitUntilGoogleAuthReady() {
+      setTimeout(() => {
+        GoogleAuth ? fetchGoogleFitHistoryData() : waitUntilGoogleAuthReady();
+      }, 100);
+    }
+
     $('#fitHistoryForm').on('submit', (e) => {
         e.preventDefault();
         const form = document.getElementById('fitHistoryForm');
         let formData = new FormData(form);
-        
-        const linksForValues = {
-            1: "com.google.height",
-            2: "com.google.weight",
-            3: "com.google.distance.delta",
-            4: "com.google.calories.expended",
-            5: "com.google.step_count.delta",
-            6: "com.google.heart_rate.bpm",
-            7: "com.google.cycling.pedaling.cadence",
-            8: "com.google.cycling.wheel_revolution.rpm"
-        }
-        let dataType;
         for ( let ent of formData.entries()) {
+          // Overriding start and end timings
           if(ent[0] === "from") {
             formObject.startMilliSeconds = getMilliSeconds(ent[1]);
           }
           else if(ent[0] === "to") {
             formObject.endMilliSeconds = getMilliSeconds(ent[1]) + 86400000;
-          }
-          else if(ent[0] === "fitness-field") {
-            dataType = linksForValues[ent[1]];
-            formObject.dataType = dataType;
           }
         }
         if(formObject.startMilliSeconds >= formObject.endMilliSeconds) {
@@ -36,8 +61,13 @@ $(document).ready(() => {
           return;
         }
 
-        if(Object.keys(formObject).length === 3) {
-          fetchGoogleFitHistoryData(dataType);
+        // setting date values so that default graph can be shown
+        localStorage.setItem('formObject', JSON.stringify(formObject));
+
+        if(Object.keys(formObject).length >= 2) {
+          counter = 0;
+          $('.graphContainer').html('');
+          fetchGoogleFitHistoryData();
         } else {
           alert('All the field were not provided');
         }
@@ -52,23 +82,19 @@ $(document).ready(() => {
       return milliseconds;
     }
 
-    function fetchGoogleFitHistoryData(dataType) {
-
+    function fetchGoogleFitHistoryData() {
       if (!navigator.onLine) {
         alert('Please check if you are online');
-      }
-      else if(!GoogleAuth) {
-        alert('Loading...Please wait');
       }
       else if(!GoogleAuth.isSignedIn.Ab) {
         // signIn() prompts the user to sign in as well as asks for
         // API permissions as well (different from GoogleAuth.Q1())
         GoogleAuth.signIn();
         GoogleAuth.isSignedIn.listen(handleUserSignIn);
-      } 
+      }
       else if(!isAuthorized()) {
         GoogleAuth.Q1()   // Q1 prompts user to give MyL3 the access of fit data.
-        .then((data) => {
+        .then(() => {
           displayData();
         });
       }
@@ -93,21 +119,22 @@ $(document).ready(() => {
       function displayData() {
         const user = GoogleAuth.currentUser.get();
         if(user.Zi.access_token) {
-          bringData(user.Zi.access_token);
+          // "token" is the access_token retrieved from OAuth 2.0
+          token = user.Zi.access_token;
+          bringData();
         } else {
           GoogleAuth.T8()
           .then((res) => {
-            bringData(res.access_token);
+            token = res.access_token;
+            bringData();
           });
         }
-        $('.fitnessDataContainer').show();
       }
     
-      function bringData(token) {
-        // "token" is the access_token retrieved from OAuth 2.0
+      function bringData() {
         const data = {
           "aggregateBy": [{
-            "dataTypeName": dataType
+              "dataTypeName": dataTypes[counter]
           }],
           "bucketByTime": { "durationMillis":  86400000 },
           "startTimeMillis": formObject.startMilliSeconds,
@@ -117,9 +144,13 @@ $(document).ready(() => {
         $.ajax({
           statusCode: {
             500: function() {
-                createGraph([], []);
-                alert('Not Found');
-              }
+              console.log(HTMLText[dataTypes[counter]] + ' not found');
+              bringNextField();
+            },
+            400: function() {
+              console.log(HTMLText[dataTypes[counter]] + ' not found');
+              bringNextField();
+            }
           },
           method: "POST",
           headers: {
@@ -151,7 +182,7 @@ $(document).ready(() => {
             dateArray.push(monthNameByNumber[month] + " " + day);
           }
           createValuesArray(bucket, dateArray);
-          // function will create an array with values for Y-axis
+          // function will create an array with values to be plotted on Y-axis
         }
         catch(err) {
           console.log(err);
@@ -166,7 +197,11 @@ $(document).ready(() => {
             const value = bucket[i].dataset[0].point[0].value[0];
             if(value.intVal) {
               nDayData.push(value.intVal);
-            } else {
+            }
+            else if(dataTypes[counter] === "com.google.height") {
+              nDayData.push((value.fpVal*100).toFixed());
+            }
+            else {
               nDayData.push(value.fpVal.toFixed());
             }
           }
@@ -193,20 +228,26 @@ $(document).ready(() => {
           'rgba(75, 192, 192, 1)'
         ];
         // removing and appending canvas to prevent overlapping of updated chart.
-        $('#graph').html('');
-        $('#graph').html('<canvas id="myChart"></canvas>');
-        $("canvas").css({"backgroundColor": "black", "color": "white"});
+        // $('.graph').html('<canvas class="myChart"></canvas>');
         dataToToggleGraph.per_day_data = nDayData;
         dataToToggleGraph.dates = dateArray;
         dataToToggleGraph.current_chart = $('input[name="graphType"]:checked').val();
         const random = Math.floor(Math.random()*5);
-        var ctx = document.getElementById("myChart").getContext('2d');
-        var myChart = new Chart(ctx, {
+        const chart = jQuery('<canvas/>', {
+            class: 'myChart'
+        });
+        const graph = jQuery('<div/>', {
+            class: 'graph shadow'
+        });
+        chart.appendTo(graph);
+        graph.appendTo('.graphContainer');
+        // var ctx = document.getElementsByClassName("myChart")[0].getContext('2d');
+        var myChart = new Chart(chart, {
             type: $('input[name="graphType"]:checked').val(),
             data: {
               labels: dateArray,
               datasets: [{
-                  label: $('#fitness-field').children()[$('#fitness-field')[0].value].innerText,
+                  label: HTMLText[dataTypes[counter]],
                   data: nDayData,
                   backgroundColor: backgroundColors[random],
                   borderColor: borderColors[random],
@@ -221,26 +262,22 @@ $(document).ready(() => {
                   },
                   scaleLabel: {
                     display: true,
-                    labelString: $('#fitness-field').children()[$('#fitness-field')[0].value].innerText
-                  }
+                    labelString: HTMLText[dataTypes[counter]]
+                  },
+                  scaleFontColor: "#ff0101",
                 }]
               },
               responsive: true
             }
         });
+        bringNextField();
       }
 
-      // Code to toggle graphs
-      $('#line_g').on('click', () => {
-        if(dataToToggleGraph.current_chart === 'bar') {
-          createGraph(dataToToggleGraph.per_day_data, dataToToggleGraph.dates);
+      function bringNextField() {
+        if(counter<dataTypes.length-1) {
+          ++counter;
+          bringData();
         }
-      });
-
-      $('#bar_g').on('click', () => {
-        if(dataToToggleGraph.current_chart === 'line') {
-          createGraph(dataToToggleGraph.per_day_data, dataToToggleGraph.dates);
-        }
-      });
+      }
     }
-});
+};

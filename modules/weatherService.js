@@ -13,7 +13,6 @@ export class weatherService {
         // Here "fields" array contain the integers which denotes values 
         // of various fields from dialog-box form for e.g. this array will be
         // [1,2,3,4,5] if user clicks on first five checkboxes.
-        console.log('hi');
         if($('#tabularData tbody').children().length > 1) {
             $('#weatherTable').hide();
             // Following steps remove elements currently present in the table.
