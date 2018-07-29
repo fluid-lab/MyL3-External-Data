@@ -17,10 +17,10 @@ Steps to run this project locally:
     * [Air Visual API key](https://airvisual.com/user/api)
     * Enable "Maps JavaScript API" by creating a new project on Google Cloud Platform. More about how to get [Google maps key](https://developers.google.com/maps/documentation/javascript/get-api-key)
 
-    Don't restrict Goolge Map API key. Under Key restrictions > Application restrictions select "None". Restricting this key causes error sometimes.
+    Don't restrict Goolge Map API key. Under Key restrictions > Application restrictions select "None". Restricting this key causes error sometimes during development and testing.
     * We have to use "Geocoding API" to provide location information. Enable Geocoding API for Google map as well.
     Remember the API key will be same for both "Maps JavaScript API" and "Geocoding API".
-    * To get fitness API key and client ID, visit same google cloud project which you have set up for Google Map key.
+    * To get fitness API key and client ID visit the same google cloud project which you have set up for Google Map key.
         * Visit APIs and Services > Library
         * search for Fitness API, enable it
         * Go to APIs and Services > Credentials > OAuth 2.0 client IDs
@@ -29,7 +29,7 @@ Steps to run this project locally:
         * Goto credentials, now select web client for this project.
           Under Restriction > Authorized JavaScript origins
         
-        * Add links to localhost urls where you'll run you project locally (Only specified URLs will be able to access Fitness API through you API credentials) e.g. http://localhost:3000 and https://developers.google.com . You can add more than one websites urls.
+        * Add links to localhost urls where you'll run you project locally (Only specified URLs will be able to access Fitness API through your API credentials) e.g. http://localhost:3000 and https://developers.google.com . You can add more than one websites urls.
 
         * More about fitness API is explained in [Google Fit API documentation](https://developers.google.com/fit/rest/)
 
@@ -38,13 +38,15 @@ Steps to run this project locally:
 
     ``` git clone https://github.com/jeevan-jp/MyL3-External-Data.git ```
 
-* Once you have all API keys, client id ready, you have to create a new file name apiKeys.js in modules folder. Copy contents from apiKeysTemplate.js into newly created file. add all the keys corresponding to the names. Following variables are there-
+* Once you have all the keys and client id ready, create a new file named apiKeys.js within "modules" folder. Copy  contents from apiKeysTemplate.js into newly created file. add all the keys corresponding to the names. Variables in the file have following meanings-
 
     * openweathermapKey: Key from Open weather map API.
-    * googleMapKey: Goolgle Map API key form Google Cloud Platfrom
+    * googleMapKey: Goolgle Map API key form Google Cloud Platfrom.
     * OAuthKey: OAuth 2.0 web client secret.
     * clientId: OAuth 2.0 web client ID.
     * airVisualKey: Key for Air Visual API.
+
+    Make sure you provide right key to the right variable in the apiKeys.js
 
 * A local webserver is needed (for error free viewing), http-server is a good option.
 Install http-server globally using the following command:
@@ -56,8 +58,9 @@ Install http-server globally using the following command:
     ``` sudo npm install http-server -g ```
 
     If npm isn't working [download and install node](https://nodejs.org/en/).
+    Remember it is not mandatory to use http-server you can set up according to your choice.
 
-* After installation type the following command in terminal:
+* After installation run following command in terminal:
 
     ``` http-server -p 3000 ```
 
