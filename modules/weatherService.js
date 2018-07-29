@@ -32,6 +32,12 @@ export class weatherService {
                     .then((weatherData) => {
                         if(weatherData !== 'error') {
                             console.log('Weather JSON', weatherData);
+                            let storedWeatherData = {};
+                            if(localStorage.weatherData) {
+                                storedWeatherData = JSON.parse(localStorage.weatherData);
+                            }
+                            storedWeatherData[new Date().toISOString()] = JSON.stringify(weatherData);
+                            localStorage.weatherData = JSON.stringify(storedWeatherData);
                             myL3.oneTimeWeatherData = weatherData;
                             appendIntoTable.addDataIntoTable(weatherData, fields);
                             $('#spinner').hide();

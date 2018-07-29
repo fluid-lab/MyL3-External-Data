@@ -30,9 +30,16 @@ export class GoogleMap {
                 }
 
                 $.getJSON(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},
-                ${lon}&key=${mapKey}`, (data) => {
-                    console.log(data, data.results[0].formatted_address);
-                    const address = data.results[0].formatted_address;
+                ${lon}&key=${mapKey}`, (locationData) => {
+                    let storedLocationData = {};
+                    if(localStorage.locationData) {
+                        storedLocationData = JSON.parse(localStorage.locationData);
+                    }
+                    storedLocationData[new Date().toISOString()] = JSON.stringify(locationData);
+                    localStorage.locationData = JSON.stringify(storedLocationData);
+
+                    console.log(locationData, locationData.results[0].formatted_address);
+                    const address = locationData.results[0].formatted_address;
                     $('#address').html(address);
                     this.addGoogleMap(position, mapKey, address);
                 })

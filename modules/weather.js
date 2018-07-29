@@ -1,7 +1,6 @@
 export class weather {
     static fetchWeather(position) {
         var myL3 = window.myL3 || {};
-        console.log('Coordinates: ', position);
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
     

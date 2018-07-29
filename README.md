@@ -97,6 +97,14 @@ To test OAuth prompt which is shown to take api permission more than once: Donâ€
 OpenWeatherMap weather service is based on the [VANE Geospatial Data Science](http://owm.io/) platform for collecting, processing, and distributing information about our planet through easy to use tools and APIs.
 Ideology is inspired by OpenStreetMap and Wikipedia that make information free and available for everybody. OpenWeatherMap provides wide range of weather data such as map with current weather, week forecast, precipitation, wind, clouds, data from weather Stations and many others. Weather data is received from global Meteorological broadcast services and more than 40,000 weather stations. (courtesy: [Stack overflow](https://stackoverflow.com/questions/26804596/openweathermap-api-vs-wunderground-api))
 
+## Reverse Geocoding
+Reverse geocoding is the process of back coding of a point location to a readable address or place name. This permits the identification of nearby street addresses, places, and/or areal subdivisions such as neighbourhoods, county, state, or country.
+
+We have used Geocoding API of Google Maps JavaScript API to implement reverse geocoding. Refer to [Geocoding API documentation](https://developers.google.com/maps/documentation/javascript/examples/geocoding-reverse) for more.
+Link to make JSON request:
+
+    https://maps.googleapis.com/maps/api/js?key={{YOUR_API_KEY}}
+
 ## Air Pollution API used:
 
 In the beginning we tried to using openaq API because it was free and open source. But it does not provode us current air pollution data and also they have very limited coverage as well. Thatâ€™s why we used Air Visual.
