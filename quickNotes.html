@@ -52,25 +52,26 @@
             width: 65%;
             margin-left: 20px;
           }
-          #mySidenav {
-            position: absolute;
-            left: -90px;
-            transition: 0.3s;
+          #edit-weather, #edit-fit {
             padding: 5px;
-            width: 120px;
-            text-decoration: none;
+            width: 300px;
+            height: 40px;
             font-size: 15px;
             font-weight: bold;
-            border-radius: 0 5px 5px 0;
-            background: #ffc107;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-            top: 80px;
+            background: #17a2b8;
             cursor: pointer;
-            position: fixed;
+            color: white;
+            margin-bottom: 5px;
+            border-radius: 5px 0;
           }
-
-          #mySidenav:hover {
-            left: 0; /* On mouse-over, make the elements appear as they should */
+          
+          #edit-fit {
+              width: 100%;
+              background: #ffffff;
+              color: #000000;
+          }
+          #edit-weather:hover, #edit-fit:hover {
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
           }
 
           #airQualityContainer {
@@ -138,6 +139,10 @@
 
          <div id="weatherTable">
             <center>
+                <div id="edit-weather">
+                    Edit Choices
+                    <i class="fa fa-edit"></i>
+                </div>
                <table id="tabularData" class="shadow">
                   <tbody>
                      <tr id="tr_1">
@@ -173,10 +178,6 @@
          <div class="heading_text">
             Choose any of the following sources to add an auto note
             and start importing their data to your MyL3:
-        </div>
-        <div id="mySidenav" class="shadow" style="display: none;">
-            Edit Choices
-            <i style="display: inline; float: right;" class="fa fa-edit"></i>
         </div>
          <div id="buttons">
             <div class="button_container">
@@ -317,6 +318,10 @@
                       &nbsp; distance covered and other data by using mobile phone’s sensors. <br>
                     * Do regular exercise and fitness activities to see results in the playground.</p>
                    <div id="heading"></div> <h6 style="color: #007bff">Today's health and fitness details in cards format</h6>
+                </div>
+                <div id="edit-fit">
+                    Edit Choices
+                    <i class="fa fa-edit"></i>
                 </div>
                 <div class="dataCards">
                     <div id="height"></div>

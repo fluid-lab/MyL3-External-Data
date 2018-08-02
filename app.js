@@ -52,14 +52,12 @@ $(document).ready(() => {
         }
     });
 
-    $('#mySidenav').on('click', () => {
-        if($('#tabularData > tbody')[0].children.length>1) {
-            $('#map').hide();
-            $('#address').hide();
-            $('#selectFields').modal('show');
-        } else {
-            $('#fitChoices').modal('show');
-        }
+    $('#edit-weather').on('click', () => {
+        $('#selectFields').modal('show');
+    });
+
+    $('#edit-fit').on('click', () => {
+        $('#fitChoices').modal('show');
     });
 
     $('#importLocation').on('click', () => {
