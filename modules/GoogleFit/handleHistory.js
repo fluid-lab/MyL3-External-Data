@@ -62,14 +62,13 @@ window.onload = () => {
 
     $('#fitHistoryForm').on('submit', (e) => {
         e.preventDefault();
-        const form = document.getElementById('fitHistoryForm');
-        let formData = new FormData(form);
-        for ( let ent of formData.entries()) {
+        const formData = $('#fitHistoryForm').serializeArray();
+        for ( let ent of formData) {
           // Overriding start and end timings
-          if(ent[0] === "from") {
+          if(ent.name === "from") {
             formObject.startMilliSeconds = getMilliSeconds(ent[1]);
           }
-          else if(ent[0] === "to") {
+          else if(ent.name === "to") {
             formObject.endMilliSeconds = getMilliSeconds(ent[1]) + 86400000;
           }
         }

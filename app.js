@@ -34,11 +34,10 @@ $(document).ready(() => {
             // The following array will contain "values" of html elements from
             // modal's form for e.g. [1,2,3,4,5] (if user selects first five fields)
             let fieldsSelectedByLearner = [];
-            const form = document.getElementById('weatherFieldsForm');
-            let formData = new FormData(form);
             
-            for( let ent of formData.entries()) {
-                fieldsSelectedByLearner.push(ent[1]);
+            const formData = $('#weatherFieldsForm').serializeArray();
+            for( let ent of formData) {
+                fieldsSelectedByLearner.push(ent.value);
             }
 
             if(fieldsSelectedByLearner.length == 0) {

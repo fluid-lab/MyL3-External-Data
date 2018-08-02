@@ -17,12 +17,11 @@ $(document).ready(() => {
                 7: "com.google.cycling.pedaling.cadence",
                 8: "com.google.cycling.wheel_revolution.rpm"
             }
-            e.preventDefault();     // prevent default form submission
-            const form = document.getElementById('fitnessFieldsForm');
-            let formData = new FormData(form);
+            e.preventDefault();     // prevent default form submissions
+            let formData = $('#fitnessFieldsForm').serializeArray();
             
-            for( let ent of formData.entries()) {
-                fieldsSelectedByLearner.push(ent[1]);
+            for( let ent of formData) {
+                fieldsSelectedByLearner.push(ent.value);
             }
     
             if(fieldsSelectedByLearner.length==0) {
