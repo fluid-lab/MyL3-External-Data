@@ -38,7 +38,7 @@ Steps to run this project locally:
 
     ``` git clone https://github.com/jeevan-jp/MyL3-External-Data.git ```
 
-* Once you have all the keys and client id ready, create a new file named apiKeys.js within "modules" folder. Copy  contents from apiKeysTemplate.js into newly created file. add all the keys corresponding to the names. Variables in the file have following meanings-
+* Once you have all the keys and client id ready, create a new file named apiKeys.js within "scripts" folder. Copy  contents from apiKeysTemplate.js into newly created file. add all the keys corresponding to the names. Variables in the file have following meanings-
 
     * openweathermapKey: Key from Open weather map API.
     * googleMapKey: Goolgle Map API key form Google Cloud Platfrom.
@@ -66,7 +66,7 @@ Install http-server globally using the following command:
 
 * Visit ```http://localhost:3000``` in your browser.
 
-### Important libraries used to bring google fit data:
+### Important libraries used to provide google fit data:
 
 * Google OAuth 2.0 : Name of script file used is api.js and this is the link to it.
         
@@ -75,13 +75,13 @@ Install http-server globally using the following command:
         
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
 
-### Type of OAuth 2.0 used: 
+### Type of OAuth 2.0 used:
 
 * client-side Web Applications :  https://developers.google.com/identity/protocols/OAuth2UserAgent
 
 * For this project you don’t have to read any other documentation except the documentation for javascript applications.
 
-### Using OAuth 2.0 Playground (optional)
+### How to use OAuth 2.0 Playground (optional)
 
 GET or POST request to the fitness API can be made simply through Google OAuth 2.0 Playground: https://developers.google.com/oauthplayground/
 Using OAuth playground is one of easiest way to visualise the response and make changes to our requests accordingly.
@@ -89,9 +89,9 @@ Using OAuth playground is one of easiest way to visualise the response and make 
 Access of OAuth 2.0 should be given to https://developers.google.com as I explained in fitness key set up part.
 
 ### Few Global Variables explained
-Upto this point our global Variable "myL3" contains 3 API keys 1 client_id(OAuth), two variable's names myL3.oneTimeWeatherData and myL3.isMapAvailable variables.
+Upto this point our global object "myL3" contains 4 API keys 1 client_id(OAuth), a variable named myL3.oneTimeWeatherData.
 
-myL3.oneTimeWeatherData is used to get store the weather data retrieved so that it can be used in other parts without making the API call again.
+myL3.oneTimeWeatherData stores the weather data retrieved so that, it can be used in other parts without making the API call again.
 
 ### Disconnect users:
 To test OAuth prompt which is shown to take api permission more than once: Don’t clear browser history and data. Instead you should use GoogleAuth.signOut() or GoogleAuth.disconnect() in browser console to sign out the user from MyL3. Because GoogleAuth is a global variable.

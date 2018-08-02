@@ -1,3 +1,8 @@
+// this file is used while fetching current fitness data
+// as well as fitness history of learners.
+
+// GoogleAuth (A JavaScript object) is used to take permission 
+// from user so that access token can be generated for OAuth.
 var GoogleAuth;
   
 function handleClientLoad() {

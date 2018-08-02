@@ -37,18 +37,6 @@
             width: 95%;
             padding: 10px 10px;
         }
-        .graphs {
-            margin-top: 30px;
-            padding-left: 20px;
-        }
-        .graph {
-            width: 100%;
-            margin: 5 0;
-        }
-        .myChart {
-            height: 250px;
-            max-height: 300px;
-        }
         #playgroundHead {
             background: #cccccc;
             padding: 5px 0;
@@ -79,7 +67,7 @@
                             </div>
                             <label>END DATE* &nbsp;</label>
                             <div class="input_date full-width">
-                                <input type="date" class="full-width" name="to">
+                                <input type="date" class="full-width" name="to" value="2018-07-31">
                             </div>
                             <label for="line_g">
                                 <input type="radio" name="graphType" id="line_g" value="line" checked>&nbsp;Line Graph
@@ -99,9 +87,7 @@
                         <h1>Playground - Chart View</h1>
                     </div>
                     <div class="graphContainer">
-                        <!-- <div class="graph shadow">
-                            <canvas class="myChart"></canvas>
-                        </div> -->
+                        <!-- graphs will appear here -->
                     </div>
                 </div>
             </div>
@@ -110,7 +96,7 @@
     <div class="footer">
         <div class="footer_btn" id="ftr_btn_1" onclick="window.location.href='/'">Home</div>
         <div class="footer_btn" id="ftr_btn_2" onclick="window.location='/quickNotes.html'">Quick Notes</div>
-        <div class="footer_btn" id="ftr_btn_3" onclick="window.location='/views/googleFit.html'">Playground</div>
+        <div class="footer_btn" id="ftr_btn_3" onclick="window.location='/views/playground.html'">Playground</div>
     </div>
     
     <script src="../lib/jquery-3.3.1.min.js"></script>
@@ -118,6 +104,8 @@
     <script src="../scripts/fit.js"></script>
     <script type="module" src="../modules/GoogleFit/fetchFitData.js"></script>
     <script type="module" src="../modules/GoogleFit/handleHistory.js"></script>
+    <script type="module" src="../modules//weatherHistory.js"></script>
+    <script type="module" src="../modules/aqiHistory.js"></script>
     <script src="../scripts/apiKeys.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
     <script async defer src="https://apis.google.com/js/api.js" 

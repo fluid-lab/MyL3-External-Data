@@ -1,3 +1,6 @@
+// This file uses getLocation() to fetch location and then fetchweather()
+// to fetch weather Data using location.
+
 import { weather } from './weather.js';
 import { appendIntoTable } from './appendIntoTable.js';
 
@@ -20,7 +23,7 @@ export class weatherService {
                 $('#tabularData tbody').children()[1].remove();
             }
             appendIntoTable.addDataIntoTable(myL3.oneTimeWeatherData, fields);
-            $('#weatherTable').show(1000);
+            $('#weatherTable').show();
             $('#spinner').hide();
             return;
         }
@@ -36,12 +39,12 @@ export class weatherService {
                             if(localStorage.weatherData) {
                                 storedWeatherData = JSON.parse(localStorage.weatherData);
                             }
-                            storedWeatherData[new Date().toISOString()] = JSON.stringify(weatherData);
+                            storedWeatherData[new Date().toLocaleDateString()] = JSON.stringify(weatherData);
                             localStorage.weatherData = JSON.stringify(storedWeatherData);
                             myL3.oneTimeWeatherData = weatherData;
                             appendIntoTable.addDataIntoTable(weatherData, fields);
                             $('#spinner').hide();
-                            $('#weatherTable').show(1000);
+                            $('#weatherTable').show();
                         }
                     })
                     .catch((err) => {                      
@@ -68,7 +71,7 @@ export class weatherService {
                     resolve(position);
                 }, (err) => {
                     console.log(err);
-                    $('#err').html(`Cannot retrieve location info, \
+                    $('#err').html(`Cannot retrieve location info,
                     <br>Reason: <strong>${err.message}</strong>`);
                     if(!navigator.onLine) {
                         alert('Internet connection not avaiable');

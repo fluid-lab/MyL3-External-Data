@@ -1,8 +1,18 @@
+// this file fetches and shows fitness history in the
+// Quick Notes Playground. We have used localstorage to access chosen
+// fitness fields to be fetched(all these field were set into localstorage
+// when learner selected fields from modal form present day fitness data)
+
+// Whole process was divided into functions to retrieve data. The flow
+// of program is from top to bottom and function by function.
+
+// After completing the task of plotting graphs, 
+// WeatherHistory.plotWeatherHistory() is called to plot weather history.
+import { WeatherHistory } from "../weatherHistory.js";
 window.onload = () => {
 
     let counter = 0;
     let token;
-    let dataToToggleGraph = {};
     let formObject = {};
     const HTMLText = {
       "com.google.height" : "height(cm)",
@@ -23,8 +33,9 @@ window.onload = () => {
     const dataTypes = window.localStorage.getItem('selectedFields').split(',');
 
     if(localStorage.formObject) {
-      formObject = JSON.parse(localStorage.formObject);
-    } else {      
+      formObject = JSON.parse(localStorage.formObject); // this provides two local variables
+      // startMilliSeconds and endMilliSeconds so that default graph can be plotted on user's visit.
+    } else {
       const dateAndTimeNow = new Date();
       const hrs = dateAndTimeNow.getHours();
       const mins = dateAndTimeNow.getMinutes();
@@ -33,7 +44,11 @@ window.onload = () => {
       formObject.startMilliSeconds = formObject.endMilliSeconds -
         ((hrs*60 + mins)*60 + seconds) * 1000 - (86400000 * 6);
     }
-    
+
+    $('input[name="from"]').attr('value', new Date(formObject.startMilliSeconds + 86400000).toISOString().split('T')[0]);
+    $('input[name="to"]').attr('value', new Date(formObject.endMilliSeconds + 86400000).toISOString().split('T')[0]);  
+    // it takes few milliseconds after page load to load GoogleAuth. GoogleAuth gives us
+    // access token to access fitness history of a user.
     waitUntilGoogleAuthReady();
 
     // setTimeOut until GoogleAuth is ready
@@ -41,6 +56,8 @@ window.onload = () => {
       setTimeout(() => {
         GoogleAuth ? fetchGoogleFitHistoryData() : waitUntilGoogleAuthReady();
       }, 100);
+      // timeout of 100ms give enough time to GoogleAuth to complete set up
+      // which is present in fit.js file
     }
 
     $('#fitHistoryForm').on('submit', (e) => {
@@ -227,12 +244,8 @@ window.onload = () => {
           'rgba(153, 102, 255, 1)',
           'rgba(75, 192, 192, 1)'
         ];
-        // removing and appending canvas to prevent overlapping of updated chart.
-        // $('.graph').html('<canvas class="myChart"></canvas>');
-        dataToToggleGraph.per_day_data = nDayData;
-        dataToToggleGraph.dates = dateArray;
-        dataToToggleGraph.current_chart = $('input[name="graphType"]:checked').val();
         const random = Math.floor(Math.random()*5);
+        // "random" will be used to select random colors
         const chart = jQuery('<canvas/>', {
             class: 'myChart'
         });
@@ -241,7 +254,6 @@ window.onload = () => {
         });
         chart.appendTo(graph);
         graph.appendTo('.graphContainer');
-        // var ctx = document.getElementsByClassName("myChart")[0].getContext('2d');
         var myChart = new Chart(chart, {
             type: $('input[name="graphType"]:checked').val(),
             data: {
@@ -264,7 +276,7 @@ window.onload = () => {
                     display: true,
                     labelString: HTMLText[dataTypes[counter]]
                   },
-                  scaleFontColor: "#ff0101",
+                  scaleFontColor: "#000",
                 }]
               },
               responsive: true
@@ -277,6 +289,8 @@ window.onload = () => {
         if(counter<dataTypes.length-1) {
           ++counter;
           bringData();
+        } else {
+          WeatherHistory.plotWeatherHistory();
         }
       }
     }

@@ -1,3 +1,6 @@
+// this file is specific to fetch and show present fitness data
+// first function i.e. fetchGoogleFitData() is container for all other functions.
+// this function was called from app.js when user clicks on fetch "Fitness Data".
 export class fitProvider {
 
   static fetchGoogleFitData(linksToFetch) {

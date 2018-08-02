@@ -1,3 +1,5 @@
+// getAQI fetches AQI data from air visual
+
 import { weatherService } from '../modules/weatherService.js';
 
 export class AQI {
@@ -18,6 +20,13 @@ export class AQI {
                 $.getJSON(`https://api.airvisual.com/v2/nearest_city?lat=${lat}&lon=${lon}&key=${airVisualKey}`, (aqiData) => {
                     console.log(aqiData);
                     const aqi = aqiData.data.current.pollution.aqius;
+                    const date = new Date().toLocaleDateString();
+                    let aqiHistory = {};
+                    if(localStorage.aqi) {
+                        aqiHistory = JSON.parse(localStorage.aqiHistory);
+                    }
+                    aqiHistory[date] = aqi;
+                    localStorage.aqiHistory = JSON.stringify(aqiHistory);
                     $('#aqiVal').html(aqi);
                     $('#city-aqi').html(`${aqiData.data.city}`);
                     $('#status').html(this.aqiStatus(aqi));

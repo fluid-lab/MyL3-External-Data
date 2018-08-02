@@ -193,3 +193,16 @@ tr {
     line-height: 1.3;
     font-size: 12px;
 }
+
+.graphs {
+    margin-top: 30px;
+    padding-left: 20px;
+}
+.graph {
+    width: 100%;
+    margin: 5 0;
+}
+.myChart {
+    height: 250px;
+    max-height: 300px;
+}

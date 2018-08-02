@@ -1,3 +1,6 @@
+// this file performs reverse-geocoding using Google Maps and creates google map.
+// Both of the above opearations are carried out using geolocation (latitude & longitude)
+
 import { weatherService } from './weatherService.js';
 
 export class GoogleMap {
@@ -35,7 +38,7 @@ export class GoogleMap {
                     if(localStorage.locationData) {
                         storedLocationData = JSON.parse(localStorage.locationData);
                     }
-                    storedLocationData[new Date().toISOString()] = JSON.stringify(locationData);
+                    storedLocationData[new Date().toLocaleDateString()] = JSON.stringify(locationData);
                     localStorage.locationData = JSON.stringify(storedLocationData);
 
                     console.log(locationData, locationData.results[0].formatted_address);
@@ -68,7 +71,7 @@ export class GoogleMap {
                 title: address
             });
         }
-        // Adding google maps using lat and lon
+        // Adding google map using lat and lon
         let script = document.createElement('script');
         script.async = true;
         script.defer = true;
@@ -76,6 +79,6 @@ export class GoogleMap {
         $('body').append(script);
         $('#spinner').hide();
         $('.locationContainer').show();
-        // google maps added.
+        // google map added.
     }
 }
