@@ -34,17 +34,22 @@ export class GoogleMap {
 
                 $.getJSON(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},
                 ${lon}&key=${mapKey}`, (locationData) => {
-                    let storedLocationData = {};
-                    if(localStorage.locationData) {
-                        storedLocationData = JSON.parse(localStorage.locationData);
+                    if(locationData.results.length) {
+                        let storedLocationData = {};
+                        if(localStorage.locationData) {
+                            storedLocationData = JSON.parse(localStorage.locationData);
+                        }
+                        storedLocationData[new Date().toLocaleDateString()] = JSON.stringify(locationData);
+                        localStorage.locationData = JSON.stringify(storedLocationData);
+    
+                        console.log(locationData, locationData.results[0].formatted_address);
+                        const address = locationData.results[0].formatted_address;
+                        $('#address').html(address);
+                        this.addGoogleMap(position, mapKey, address);
+                    } else {
+                        // Geocoding API calls limit exceeded
+                        this.addGoogleMap(position, mapKey, address);
                     }
-                    storedLocationData[new Date().toLocaleDateString()] = JSON.stringify(locationData);
-                    localStorage.locationData = JSON.stringify(storedLocationData);
-
-                    console.log(locationData, locationData.results[0].formatted_address);
-                    const address = locationData.results[0].formatted_address;
-                    $('#address').html(address);
-                    this.addGoogleMap(position, mapKey, address);
                 })
             })
         }
