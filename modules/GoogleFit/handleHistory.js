@@ -65,11 +65,12 @@ window.onload = () => {
         const formData = $('#fitHistoryForm').serializeArray();
         for ( let ent of formData) {
           // Overriding start and end timings
+          console.log(ent);
           if(ent.name === "from") {
-            formObject.startMilliSeconds = getMilliSeconds(ent[1]);
+            formObject.startMilliSeconds = getMilliSeconds(ent.value);
           }
           else if(ent.name === "to") {
-            formObject.endMilliSeconds = getMilliSeconds(ent[1]) + 86400000;
+            formObject.endMilliSeconds = getMilliSeconds(ent.value) + 86400000;
           }
         }
         if(formObject.startMilliSeconds >= formObject.endMilliSeconds) {
@@ -99,6 +100,7 @@ window.onload = () => {
     }
 
     function fetchGoogleFitHistoryData() {
+      $('#spinner-playground').show();
       if (!navigator.onLine) {
         alert('Please check if you are online');
       }
@@ -289,6 +291,7 @@ window.onload = () => {
           ++counter;
           bringData();
         } else {
+          $('#spinner-playground').hide();
           WeatherHistory.plotWeatherHistory();
         }
       }

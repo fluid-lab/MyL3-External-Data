@@ -9,7 +9,6 @@ $(document).ready(() => {
     // oneTimeWeatherData is useful in avoiding repetitive weather API calls
     // the value of this var is set when we make owm(openweathermap) API call
     // this is happening in weatherService.js file
-    // we have placed in aap.js because
 
     $('#selectAll').on('click', () => {
         $('#selectAll')[0].checked ? $('#s_all').html('DESELECT ALL') : $('#s_all').html('SELECT ALL');
@@ -78,4 +77,10 @@ $(document).ready(() => {
         $('#spinner').show();
         AQI.getAQI();
     });
+
+    function showSnackbar() {
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    }
 });
