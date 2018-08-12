@@ -10,10 +10,12 @@ export class fitProvider {
       // API permissions as well (different from GoogleAuth.Q1())
       GoogleAuth.signIn();
       GoogleAuth.isSignedIn.listen(handleUserSignIn);
-    } 
+    }
     else if(!isAuthorized()) {
       // Q1 prompts user to give MyL3 the access of fit data.
       // Remember, Q1 doesn't prompt user to sign
+      // this step will only be triggered if user is signed in
+      // and not Authorized
       GoogleAuth.Q1()
       .then((data) => {
         console.log(data);

@@ -1,5 +1,5 @@
 // this file performs reverse-geocoding using Google Maps and creates google map.
-// Both of the above opearations are carried out using geolocation (latitude & longitude)
+// Both of the above operations are carried out using geolocation (latitude & longitude)
 
 import { weatherService } from './weatherService.js';
 

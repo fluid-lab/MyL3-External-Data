@@ -1,4 +1,5 @@
-// getAQI fetches AQI data from air visual
+// getAQI() fetches AQI data from air visual
+// also stores the fetched data in localStorage
 
 import { weatherService } from '../modules/weatherService.js';
 
@@ -22,7 +23,7 @@ export class AQI {
                     const aqi = aqiData.data.current.pollution.aqius;
                     const date = new Date().toLocaleDateString();
                     let aqiHistory = {};
-                    if(localStorage.aqi) {
+                    if(localStorage.aqiHistory) {
                         aqiHistory = JSON.parse(localStorage.aqiHistory);
                     }
                     aqiHistory[date] = aqi;

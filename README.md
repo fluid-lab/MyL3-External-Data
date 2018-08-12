@@ -118,6 +118,19 @@ REST API endpoint used:
 
     https://api.airvisual.com/v2/nearest_city?lat={LATITUDE}&lon={LONGITUDE}&key={YOUR_API_KEY}
 
+## Reddit OAuth setup
+* visit the link
+    https://www.reddit.com/prefs/apps
+
+* create a new web app there
+* Copy the client ID on top-left corner into apiKeys.js
+* redirect_uri field should filled with
+    http://localhost:4000/views/reddit_auth.html
+
+    Reddit OAuth was implemented to find out time spent by the user on social media. You can use this sample code to start finding out the time spent
+
+* A useful resource is reddit api documentation
+https://www.reddit.com/dev/api/oauth
 
 ### Youtube
 It is highly recommended to watch how to deal with Google FIt Rest API:

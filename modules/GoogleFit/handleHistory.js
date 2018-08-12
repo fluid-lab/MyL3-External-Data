@@ -24,7 +24,7 @@ window.onload = () => {
       "com.google.cycling.pedaling.cadence": "pedaling speed",
       "com.google.cycling.wheel_revolution.rpm": "wheel speed(rpm)"
     };
-    const maxDate = new Date().toISOString().split('T')[0];
+    const maxDate = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
     $('input[name="to"]').attr('max', maxDate); // setting maxdate property in end date (HTML file)
 
     if(!localStorage.selectedFields) {
@@ -46,7 +46,7 @@ window.onload = () => {
     }
 
     $('input[name="from"]').attr('value', new Date(formObject.startMilliSeconds + 86400000).toISOString().split('T')[0]);
-    $('input[name="to"]').attr('value', new Date(formObject.endMilliSeconds + 86400000).toISOString().split('T')[0]);  
+    $('input[name="to"]').attr('value', new Date(formObject.endMilliSeconds).toISOString().split('T')[0]);  
     // it takes few milliseconds after page load to load GoogleAuth. GoogleAuth gives us
     // access token to access fitness history of a user.
     waitUntilGoogleAuthReady();
@@ -104,7 +104,7 @@ window.onload = () => {
       if (!navigator.onLine) {
         alert('Please check if you are online');
       }
-      else if(!GoogleAuth.isSignedIn.Ab) {
+      else if(!GoogleAuth.isSignedIn.get()) {
         // signIn() prompts the user to sign in as well as asks for
         // API permissions as well (different from GoogleAuth.Q1())
         GoogleAuth.signIn();

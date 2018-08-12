@@ -4,5 +4,6 @@ myL3.apiKeys = {
     googleMapKey: undefined,
     OAuthKey: undefined,
     clientId: undefined,
-    airVisualKey: undefined
+    airVisualKey: undefined,
+    redditToken: undefined
 };
