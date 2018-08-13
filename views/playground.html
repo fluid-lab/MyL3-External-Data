@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Demo Google Fit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../css/snackbar.css" />
+    <style>
+        ._container {
+            margin: 5px;
+            margin-top: 80px;
+            margin-bottom: 60px;
+        }
+        select, input.full-width  {
+            height: 40px;
+            border: 1px solid gray;
+            margin-top: 5px;
+        }
+        .full-width {
+            width: 100%;
+        }
+        button {
+            margin-top: 11px;
+        }
+        label {
+            font-weight: bold;
+            font-size: 12px;
+        }
+        #heading {
+            text-align: center;
+            margin: 2% 2%;
+        }
+        #history_inputs {
+            margin-top: 30px;
+            width: 95%;
+            padding: 10px 10px;
+        }
+        #playgroundHead {
+            background: #cccccc;
+            padding: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <span id="heading" onclick="window.location='/'"> My Lifelong Learning Lab</span>
+    </div>
+    <div class="_container">
+        <center>
+            <div id="spinner" style="display: none;">
+                <center>
+                    <!-- GIF created through https://loading.io , License: CC0/Free use for any purpose -->
+                    <img src="../assets/Rolling-200px.gif" width="100" />
+                    <p>Fetching data...</p>
+                </center>
+            </div>
+    
+            <div class="row">
+                <div class="col-xs-12 col-md-4" style="max-width: 300px;">
+                    <div class="shadow" id="history_inputs">
+                        <form class="form-inline" id="fitHistoryForm" method="post">
+                            <label>START DATE* &nbsp;</label>
+                            <div class="input_date full-width">
+                                <input type="date" class="full-width" name="from">
+                            </div>
+                            <label>END DATE* &nbsp;</label>
+                            <div class="input_date full-width">
+                                <input type="date" class="full-width" name="to">
+                            </div>
+                            <label for="line_g">
+                                <input type="radio" name="graphType" id="line_g" value="line" checked>&nbsp;Line Graph
+                            </label>
+                            &nbsp;
+                            <label for="bar_g">
+                                <input type="radio" name="graphType" id="bar_g" value="bar">&nbsp;Bar Graph
+                            </label>
+                            &nbsp;
+                            <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="col-xs-12 col-md-8 graphs">
+                    <div id="playgroundHead">
+                        <h1>Playground - Chart View</h1>
+                        <div id="spinner-playground" style="display: inline;">
+                            <center>
+                                <!-- GIF created through https://loading.io , License: CC0/Free use for any purpose -->
+                                <img src="../assets/Rolling-200px.gif" width="30" />
+                                <span style="display: inline;">Plotting graphs.....</span>
+                            </center>
+                        </div>
+                    </div>
+                    <div class="graphContainer">
+                        <!-- graphs will appear here -->
+                    </div>
+                </div>
+                <div id="snackbar">All the graphs were plotted successfully</div>
+            </div>
+        </center>
+    </div>
+    <div class="footer">
+        <div class="footer_btn" id="ftr_btn_1" onclick="window.location.href='/'">Home</div>
+        <div class="footer_btn" id="ftr_btn_2" onclick="window.location='/quickNotes.html'">Quick Notes</div>
+        <div class="footer_btn" id="ftr_btn_3" onclick="window.location='/views/playground.html'">Playground</div>
+    </div>
+    
+    <script src="../lib/jquery-3.3.1.min.js"></script>
+    <script src="../lib/bootstrap.min.js"></script>
+    <script src="../scripts/fit.js"></script>
+    <script type="module" src="../modules/GoogleFit/fetchFitData.js"></script>
+    <script type="module" src="../modules/GoogleFit/handleHistory.js"></script>
+    <script type="module" src="../modules//weatherHistory.js"></script>
+    <script type="module" src="../modules/aqiHistory.js"></script>
+    <script src="../scripts/apiKeys.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+    <script async defer src="https://apis.google.com/js/api.js" 
+            onload="this.onload=function(){}; handleClientLoad()"
+            onreadystatechange="if (this.readyState === 'complete') this.onload()">
+    </script>
+    <script>
+        $('.footer_btn').removeClass('active');
+        $('#ftr_btn_3').addClass('active')
+    </script>
+</body>
+</html>

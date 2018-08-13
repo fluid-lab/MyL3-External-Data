@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>MyL3 External Data</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+      <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="styles.css" />
+      <style>
+          #buttons {
+            width: 100%;
+            max-width: 650px;
+            margin: 0px auto;
+            padding: 5px;
+            background-color: #f2f2f2;
+            border-top: 2px solid #000;
+            border-bottom: 2px solid #000;
+          }
+          #buttons, .button_large, .flex-column {  
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+          }
+          .heading_text {
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto 30px auto;
+          }
+          .button_container, #airQualityData, .flex-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+          }
+          .button_large {
+            height: 120px;
+            width: 35%;
+            max-width: 120px;
+            text-align: center;
+            border: 2px solid #000;
+            cursor: pointer;
+          }
+          .button_large:hover {
+            border: 3px solid black;
+          }
+          #backBtn-fit, #buttons, .fitnessDataContainer {
+            margin-bottom: 60px;
+          }
+          .text {
+            width: 65%;
+            margin-left: 20px;
+          }
+          #edit-weather, #edit-fit {
+            padding: 5px;
+            width: 300px;
+            height: 40px;
+            font-size: 15px;
+            font-weight: bold;
+            background: #17a2b8;
+            cursor: pointer;
+            color: white;
+            margin-bottom: 5px;
+            border-radius: 5px 0;
+          }
+          
+          #edit-fit {
+              width: 100%;
+              background: #ffffff;
+              color: #000000;
+          }
+          #edit-weather:hover, #edit-fit:hover {
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+          }
+
+          #airQualityContainer {
+            width: 300px;
+            height: auto;
+            padding: 15px;
+            background: #ffffff;
+            text-align: justify;
+            margin-bottom: 70px;
+          }
+
+          .container-aqi {
+              min-height: calc(100vh - 140px);
+              display: none;
+          }
+          
+          #aqiVal {
+            font-size: 100px;
+            font-weight: bold;
+         }
+
+         .locationContainer {
+             font-size: 16px;
+             font-weight: bold;
+             max-width: 350px;
+             padding: 10px;
+             margin-bottom: 80px;
+             display: none;
+         }
+
+         #address {
+            width: 300px;
+            margin-bottom: 20px;
+            text-align: justify;
+         }
+      </style>
+   </head>
+
+   <body>
+      <div class="header">
+          <span id="heading" onclick="window.location='/'"> My Lifelong Learning Lab</span>
+      </div>
+      <div class="container">
+
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h1 id="heading_weather_data" style="display: none;">Quick Note - Open Weather Map</h1>
+            <h1 id="heading_location_data" style="display: none;">Quick Note - Location</h1>
+            <h1 id="heading_fit_data" style="display: none;">Quick Note - Google Fit</h1>
+            <h1 id="heading_aqi_data" style="display: none;">Quick Note - Air Quality Index</h1>
+        </div>
+         <center>
+            <div class="locationContainer shadow">
+                <div id="address"></div>
+                <div id="map" class="col-xs-12"></div>
+            </div>
+         </center>
+         <div id="spinner">
+            <center>
+               <!-- GIF created through https://loading.io , License: CC0/Free use for any purpose -->
+               <img src="/assets/Rolling-200px.gif" width="100" />
+               <p>Fetching data...</p>
+            </center>
+         </div>
+         <div id="err" style="text-align: center;"></div>
+
+         <div id="weatherTable">
+            <center>
+                <div id="edit-weather">
+                    Edit Choices
+                    <i class="fa fa-edit"></i>
+                </div>
+               <table id="tabularData" class="shadow">
+                  <tbody>
+                     <tr id="tr_1">
+                        <th>Parameter</th>
+                        <th>Value</th>
+                     </tr>
+                  </tbody>
+               </table>
+            </center>
+         </div>
+
+         <div class="container-aqi flex-column">
+             <div class="flex-row">
+                <div id="airQualityContainer" class="shadow flex-row">
+                    <div class="flex-column">
+                        <div style="
+                            text-align: center;
+                            font-size: 20px;
+                            font-weight: bold;">
+                            Air Quality in <span id="city-aqi"></span> is 
+                                <span id="status" style="display: inline;"></span>
+                            <div id="aqiVal"></div>
+                        </div>
+                        <strong>Health Implications:</strong>
+                        <div id="health-implications"></div> <br/>
+                        <strong>Cautionary Statement (for PM2.5):</strong>
+                        <div id="caution-pm25"></div>
+                    </div>
+                </div>
+             </div>
+         </div>
+
+         <div class="heading_text">
+            Choose any of the following sources to add an auto note
+            and start importing their data to your MyL3:
+        </div>
+         <div id="buttons">
+            <div class="button_container">
+                <div class="button_large" id="importWeather" data-toggle="modal" data-target="#selectFields">
+                    <center><img src="/assets/owm-logo.png" width="60px" height="60px" /></center>
+                </div> &nbsp;
+                <div class="text">
+                    <strong>Weather</strong> <br>
+                    Import Real Time Weather Forecast to your MyL3
+                </div>
+            </div>
+            <div class="button_container">
+                <div class="button_large" id="importLocation">
+                    <center><img src="/assets/gmaps-logo.png" width="60px" height="60px" /></center>
+                </div> &nbsp;
+                <div class="text">
+                    <strong>Location</strong> <br>
+                    Import Real Time Location data to your MyL3
+                </div>
+            </div>
+            <div class="button_container">
+                <div class="button_large" id="importFit">
+                    <center><img src="/assets/fitLogo.png" width="60px" height="60px" /></center>
+                </div> &nbsp;
+                <div class="text">
+                    <strong>Fitness Data</strong> <br>
+                    Import your Google Fit data to your MyL3
+                </div>
+            </div>
+            <div class="button_container">
+                <div class="button_large" id="aqiData">
+                    <center><img src="/assets/airVisual.png" width="60px" height="60px" /></center>
+                </div> &nbsp;
+                <div class="text">
+                    <strong>AQI - Air Visual</strong> <br>
+                    Import Air Quality Index from Air Visual to your MyL3
+                </div>
+            </div>
+         </div>
+
+         <div class="modal fade" id="selectFields">
+            <div class="modal-dialog modal-sm modal-dialog-centered">
+               <div class="modal-content">
+
+                  <div class="modal-header">
+                    <div class="modal-title">
+                        Select data you want to import from Open Weather Map
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+
+                  <div class="modal-body" style="margin-left: 10px;">
+                     <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="selectAll" value="">
+                            <span id="s_all">SELECT ALL</span>
+                        </label>
+                     </div>
+                     <form id="weatherFieldsForm" name="weatherFieldsForm" method="post">
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="temp_f" value=1>Temperature (F)
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="temp_c" value=2>Temprature (C)
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="atm_p" value=3>Atmospheric Pressure
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="humid" value=4>Humidity
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="wind_sk" value=5>Wind speed(km/h)
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="wind_sm" value=6>Wind speed(m/s)
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="wind_d" value=7>Wind Direction
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="sunrsie" value=8>Sunrise
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="sunset" value=9>Sunset
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="weather_des" value=10>Weather Description
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="visibility" value=11>Visibilty Range(meters)
+                           </label>
+                        </div>
+                        <!-- <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="aqi" value=12>Pollution (AQI)
+                            </label>
+                        </div> -->
+                        <div class="modal-footer">
+                           <button type="submit" class="btn btn-primary">Add Quick Note</button>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div> <!-- end of weather and location -->
+
+         <!-- Modal, buttons and container for Google Fit-->
+         <center>
+            <div class="fitnessDataContainer col-xs-12">
+                <div id="fitness-header">
+                    <p>
+                    <strong>How to use google fit?</strong>  <br>
+                    * Create a google account if you don't have one <br>
+                    * Install Google Fit App in your smartphone <br>
+                    * The application will take permissions to count user’s steps, <br>
+                      &nbsp; distance covered and other data by using mobile phone’s sensors. <br>
+                    * Do regular exercise and fitness activities to see results in the playground.</p>
+                   <div id="heading"></div> <h6 style="color: #007bff">Today's health and fitness details in cards format</h6>
+                </div>
+                <div id="edit-fit">
+                    Edit Choices
+                    <i class="fa fa-edit"></i>
+                </div>
+                <div class="dataCards">
+                    <div id="height"></div>
+                    <div id="weight"></div>
+                    <div id="distance"></div>
+                    <div id="calories_spent"></div>
+                    <div id="steps_count"></div>
+                    <div id="bpm"></div>
+                    <div id="cycle_cad"></div>
+                    <div id="wheel_rpm"></div>
+                </div>
+            </div>
+         </center>
+
+         <div class="modal fade" id="fitChoices">
+            <div class="modal-dialog modal-sm modal-dialog-centered">
+               <div class="modal-content">
+
+                  <div class="modal-header">
+                     <div class="modal-title">Select data you want to import from Google Fit</div>
+                     <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+
+                  <div class="modal-body" style="margin-left: 10px;">
+                     <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="allFitnessFields" value="">
+                            <span id="s_all_fit">SELECT ALL</span>
+                        </label>
+                     </div>
+                     <form id="fitnessFieldsForm" name="fitnessFieldsForm" method="post">
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="height" value=1>Height
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="weight" value=2>Weight
+                           </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                               <input type="checkbox" class="form-check-input" name="distance" value=3>Distance
+                            </label>
+                         </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="calories_spent" value=4>Calories spent
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="steps_count" value=5>Steps Count
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="bpm" value=6>BPM last recorded
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="cycle_cad" value=7>Cycling Cadence
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="wheel_rpm" value=8>Wheel revolution(RPM)
+                           </label>
+                        </div>
+                        <div class="modal-footer">
+                           <button type="submit" class="btn btn-primary">Add Quick Note</button>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="footer">
+            <div class="footer_btn" id="ftr_btn_1" onclick="window.location.href='/'">Home</div>
+            <div class="footer_btn" id="ftr_btn_2" onclick="window.location='/quickNotes.html'">Quick Notes</div>
+            <div class="footer_btn" id="ftr_btn_3" onclick="window.location='/views/playground.html'">Playground</div>
+      </div>
+      <script src="lib/jquery-3.3.1.min.js"></script>
+      <script src="lib/bootstrap.min.js"></script>
+      <script src="scripts/apiKeys.js"></script>
+      <script src="scripts/fit.js"></script>
+      <script type="module" src="modules/weather.js"></script>
+      <script type="module" src="modules/appendIntoTable.js"></script>
+      <script type="module" src="modules/weatherService.js"></script>
+      <script type="module" src="modules/mapService.js"></script>
+      <script type="module" src="scripts/fitHandleClick.js"></script>
+      <script type="module" src="modules/GoogleFit/fetchFitData.js"></script>
+      <script type="module" src="modules/aqiService.js"></script>
+      <script type="module" src="app.js"></script>
+      <script async defer src="https://apis.google.com/js/api.js" 
+            onload="this.onload=function(){}; handleClientLoad()" 
+            onreadystatechange="if (this.readyState === 'complete') this.onload()">
+      </script>
+      <script>
+          $('.footer_btn').removeClass('active');
+          $('#ftr_btn_2').addClass('active');
+      </script>
+   </body>
+</html>

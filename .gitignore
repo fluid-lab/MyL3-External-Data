@@ -1,5 +1,6 @@
 # script files
 apiKeys.js
+gulpfile.js
 
 # Logs
 logs

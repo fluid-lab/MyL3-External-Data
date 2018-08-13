@@ -3,17 +3,206 @@
     padding: 0px;
 }
 
-.container {
-    margin: 5% 15%; 
+body {
+    background-color: #f2f2f2;
 }
 
-#import {
-    background: #dacd17;
-    border: 1px blue solid;
-    border-radius: 5px;
-    width: 100px;
-    height: 50px;
+.header {
+    width: 100%;
+    height: 60px;
+    padding-left: 20px;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    background-color: #000;
+    color: white;
+    font-size: 25px;
     font-weight: bold;
-    font-size: 15px;
-    margin-left: 45%;
+}
+
+#heading {
+    cursor: pointer;
+}
+
+.container {
+    margin-top: 80px;
+    padding-bottom: 60px;
+    height: calc(100vh - 110px);
+}
+
+.center_column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.footer {
+    height: 50px;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    border-top: 2px solid gray;
+    display: flex;
+    flex-direction: row;
+    padding-left: 20px;
+    background: #fff;
+    z-index: 0.2;
+}
+
+.footer_btn {
+    height: 100%;
+    width: 100px;
+    padding-top: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.footer_btn:hover,  .active{
+    border-top: 5px solid black;
+    border-bottom: 5px solid black;
+    padding-top: 5px;
+}
+
+.boxes {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+}
+
+.button_lg {
+    width: 175px;
+    height: 175px;
+    margin: 10px;
+    padding: 0 10px;
+    border: 2px solid #000;
+    text-align: center;
+    cursor: pointer;
+}
+
+.button_lg:hover {
+    border-width: 3px;
+}
+
+#weatherTable, #spinner, .fitnessDataContainer {
+    display: none;
+}
+
+#tabularData {
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+#importWeather, #importFit, #fitnessHistory, #editSelectionBtn, 
+#importLocation, #editChoices-fit, #backBtn-fit {
+    margin-bottom: 10px;
+}
+
+#weatherTable {
+    margin-bottom: 80px;
+}
+
+#s_all, #s_all_fit {
+    font-weight: bold;
+}
+
+.form-check {
+    left: 25px;
+}
+
+table {
+    width: 100%;
+    min-width: 200px;
+    max-width: 300px;
+    border-bottom-left-radius: 10px;
+    border-collapse: collapse;
+}
+
+tr:nth-child(odd) {
+    background: #eaeaea;
+}
+
+h1 {
+    font-size: 3vw;
+}
+
+h2 {
+    font-size: 2vw;
+}
+
+th, td {
+    width: 50%;
+    padding-left: 5px;
+}
+
+tr {
+    height: 30px;
+}
+
+#tr_1 {
+    background: #ffd045;
+    color: white;
+    height: 40px;
+    font-size: 20px;
+}
+
+#map {
+    width:300px;
+    height:500px;
+    background:#383826;
+    margin-bottom: 15px;
+}
+
+.dataCards {
+    display: flex;
+    flex-flow: row wrap;
+    max-width: 400px;
+}
+
+.dataCards > div {
+    display: none;
+    width: 100%;
+    margin-bottom: 10px;
+    min-height: 70px;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    text-align: center;
+    padding: 18px 5px;
+    font-weight: bold;
+    background: white;
+}
+
+.shadow {
+    background: white;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.dataCards > div:hover {
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+    border-radius: 5px;
+}
+
+.fitnessDataContainer {
+    max-width: 410px;
+}
+
+#fitness-header {
+    text-align: left;
+    line-height: 1.3;
+    font-size: 12px;
+}
+
+.graphs {
+    margin-top: 30px;
+    padding-left: 20px;
+}
+.graph {
+    width: 100%;
+    margin: 5 0;
+}
+.myChart {
+    height: 250px;
+    max-height: 300px;
 }

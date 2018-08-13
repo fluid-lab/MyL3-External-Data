@@ -1,32 +1,40 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>MyL3 External Data</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="styles.css" />
-    <script src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/apiKeys.js"></script>
-    <script type="text/javascript" src="js/countryNames.js"></script>
-    <script type="text/javascript" src="app.js"></script>
-</head>
-<body>
-    <div class="container">
-        <div id="coords">
-            <!-- Coordinates will go here.... -->
+   <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>MyL3 External Data</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+      <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+      <link rel="stylesheet" href="styles.css" />
+   </head>
+
+   <body>
+      <div class="header">
+          <span id="heading" onclick="window.location='/'"> My Lifelong Learning Lab</span>
+      </div>
+      <div class="container center_column">
+        <div class="boxes">
+            <div class="button_lg center_column" onclick="window.location='/quickNotes.html'">
+                <strong>Quick Notes</strong>
+                Track What matters to you
+            </div>
+            <div class="button_lg center_column" onclick="window.location = '/views/playground.html'">
+                <strong>Playground</strong>
+                Reﬂect on your collected data
+            </div>
         </div>
-        <div id="city">
-            <!-- city and country -->
-        </div>
-        <!-- <div id="spinner">
-            <i class="fa fa-spinner"></i>
-        </div> -->
-        <div id="wData">
-            <!-- Weather data goes here..... -->
-        </div>
-        <div id="err"></div>
-        <button id="import" onclick="getData()">Get Data</button>
-    </div>
-</body>
+      </div>
+      <div class="footer">
+            <div class="footer_btn" id="ftr_btn_1" onclick="window.location.href='/'">Home</div>
+            <div class="footer_btn" id="ftr_btn_2" onclick="window.location='/quickNotes.html'">Quick Notes</div>
+            <div class="footer_btn" id="ftr_btn_3" onclick="window.location='/views/playground.html'">Playground</div>
+      </div>
+      <script src="lib/jquery-3.3.1.min.js"></script>
+      <script>
+          $('.footer_btn').removeClass('active');
+          $('#ftr_btn_1').addClass('active');
+      </script>
+   </body>
 </html>
