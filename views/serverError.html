@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Demo Google Fit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../styles.css" />
+    <style>
+        .serverError {
+            max-width: 380px;
+            width: 100%;
+            min-height: 250px;
+            border-radius: 5px;
+            background: url('../assets/serverError.png');
+            filter: blur(8px);
+            -webkit-filter: blur(2px);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .bg-text {
+                background-color: rgb(0,0,0); /* Fallback color */
+                background-color: rgba(0,0,0, 0.7); /* Black w/opacity/see-through */
+                color: #ffc107;
+                font-weight: bold;
+                border: 3px solid #f1f1f1;
+                position: absolute;
+                transform: translate(-50%, -50%);
+                z-index: 2;
+                width: 80%;
+                margin-top: 120px;
+                left: 50%;
+                max-width: 300px;
+                padding: 20px;
+                font-size: 20px;
+                text-align: center;
+            }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <span id="heading" onclick="window.location='/'"> My Lifelong Learning Lab</span>
+    </div>
+    <div class="container">
+        <div class="alignCenter">
+            <div class="serverError"></div>
+            <div class="bg-text">Error fetching data from external source</div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footer_btn" id="ftr_btn_1" onclick="window.location.href='/'">Home</div>
+        <div class="footer_btn" id="ftr_btn_2" onclick="window.location='/quickNotes.html'">Quick Notes</div>
+        <div class="footer_btn" id="ftr_btn_3" onclick="window.location='/views/playground.html'">Playground</div>
+    </div>
+</body>
+</html>

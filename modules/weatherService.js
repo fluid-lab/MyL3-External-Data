@@ -1,5 +1,5 @@
-// This file uses getLocation() to fetch location and then fetchweather()
-// to fetch weather Data using location.
+// This file uses getLocation() to fetch location data and after that fetchweather()
+// is called to fetch weather Data using location.
 
 import { weather } from './weather.js';
 import { appendIntoTable } from './appendIntoTable.js';

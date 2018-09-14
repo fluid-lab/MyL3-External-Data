@@ -22,7 +22,8 @@ export class weather {
                 resolve(weatherData);
             })
             .fail((err) => {
-                reject(err);
+                window.location.href = "./views/serverError.html";
+                // reject(err);
             });
         });
     }

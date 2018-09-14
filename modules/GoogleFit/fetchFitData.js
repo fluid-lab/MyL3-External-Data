@@ -159,7 +159,7 @@ export class fitProvider {
         if(value === 'error') {
           $('#calories_spent').html('Calories spent data not available.');
         } else {
-          $('#calories_spent').html(`Congrats! ${Math.floor(finalValue)} calories were expended today`);
+          $('#calories_spent').html(`${Math.floor(finalValue)} calories were expended today`);
         }
         $('#calories_spent').show(500);
       }

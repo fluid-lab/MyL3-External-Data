@@ -188,6 +188,12 @@ tr {
     max-width: 410px;
 }
 
+.alignCenter {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+}
+
 #fitness-header {
     text-align: left;
     line-height: 1.3;

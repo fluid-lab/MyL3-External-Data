@@ -35,19 +35,23 @@ $(document).ready(() => {
             localStorage.setItem('selectedFields', links);
             if (!navigator.onLine) {
                 alert('Seems you are offline.');
+                window.addEventListener('online', () => { window.location.reload(); });
             } else if(!GoogleAuth) {
                 alert('Slow internet please wait....');
-                console.log('sadfsa');
                 return;
             } else {
-                $('#fitChoices').modal("hide");
+                setFitnessWidgets(links);
+            }
+        });
+
+        function setFitnessWidgets(links) {
+            $('#fitChoices').modal("hide");
                 $('.heading_text').hide();
                 $('#buttons').hide();
                 $('#heading_fit_data').show();
                 $('#spinner').show();
                 fitProvider.fetchGoogleFitData(links);
-            }
-        });
+        }
 
         $('#allFitnessFields').on('click', () => {
             $('#allFitnessFields')[0].checked ? $('#s_all_fit').html('DESELECT ALL') : $('#s_all_fit').html('SELECT ALL');

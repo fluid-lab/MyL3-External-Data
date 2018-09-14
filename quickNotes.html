@@ -122,36 +122,38 @@
             <h1 id="heading_fit_data" style="display: none;">Quick Note - Google Fit</h1>
             <h1 id="heading_aqi_data" style="display: none;">Quick Note - Air Quality Index</h1>
         </div>
-         <center>
+        <div class="alignCenter">
             <div class="locationContainer shadow">
                 <div id="address"></div>
                 <div id="map" class="col-xs-12"></div>
             </div>
-         </center>
-         <div id="spinner">
-            <center>
-               <!-- GIF created through https://loading.io , License: CC0/Free use for any purpose -->
-               <img src="/assets/Rolling-200px.gif" width="100" />
-               <p>Fetching data...</p>
-            </center>
-         </div>
+        </div>
+
+        <div class="alignCenter">
+            <div id="spinner">
+                <!-- GIF created through https://loading.io , License: CC0/Free use for any purpose -->
+                <img src="/assets/Rolling-200px.gif" width="100" />
+                <p>Fetching data...</p>
+            </div>
+        </div>
+
          <div id="err" style="text-align: center;"></div>
 
-         <div id="weatherTable">
-            <center>
-                <div id="edit-weather">
+         <div class="alignCenter">
+            <div id="weatherTable">
+                <div id="edit-weather" style="text-align: center;">
                     Edit Choices
                     <i class="fa fa-edit"></i>
                 </div>
-               <table id="tabularData" class="shadow">
-                  <tbody>
-                     <tr id="tr_1">
+                <table id="tabularData" class="shadow">
+                    <tbody>
+                        <tr id="tr_1">
                         <th>Parameter</th>
                         <th>Value</th>
-                     </tr>
-                  </tbody>
-               </table>
-            </center>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
          </div>
 
          <div class="container-aqi flex-column">
@@ -307,7 +309,8 @@
          </div> <!-- end of weather and location -->
 
          <!-- Modal, buttons and container for Google Fit-->
-         <center>
+         
+         <div class="alignCenter">
             <div class="fitnessDataContainer col-xs-12">
                 <div id="fitness-header">
                     <p>
@@ -315,9 +318,9 @@
                     * Create a google account if you don't have one <br>
                     * Install Google Fit App in your smartphone <br>
                     * The application will take permissions to count user’s steps, <br>
-                      &nbsp; distance covered and other data by using mobile phone’s sensors. <br>
+                        &nbsp; distance covered and other data by using mobile phone’s sensors. <br>
                     * Do regular exercise and fitness activities to see results in the playground.</p>
-                   <div id="heading"></div> <h6 style="color: #007bff">Today's health and fitness details in cards format</h6>
+                    <div id="heading"></div> <h6 style="color: #007bff">Today's health and fitness details in cards format</h6>
                 </div>
                 <div id="edit-fit">
                     Edit Choices
@@ -334,7 +337,7 @@
                     <div id="wheel_rpm"></div>
                 </div>
             </div>
-         </center>
+         </div>
 
          <div class="modal fade" id="fitChoices">
             <div class="modal-dialog modal-sm modal-dialog-centered">
